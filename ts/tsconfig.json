@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "outFile": "../js/run.js",
+    "sourceMap": true,
+    "noEmitOnError": false,
+    "noUnusedLocals": true,
+    "strictNullChecks": true,
+    "removeComments": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
