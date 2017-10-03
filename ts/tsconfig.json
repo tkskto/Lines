@@ -4,7 +4,7 @@
     "target": "es5",
     "outFile": "../js/run.js",
     "sourceMap": true,
-    "noEmitOnError": false,
+    "noEmitOnError": true,
     "noUnusedLocals": true,
     "strictNullChecks": true,
     "removeComments": true

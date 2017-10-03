@@ -3,7 +3,7 @@
 
 module model {
     export class Model extends events.EventDispatcher {
-        
+
         private static _instance:Model;
     
         private constructor() {
@@ -38,7 +38,10 @@ module model {
         public get screen():{width:number, height:number} {
             return this._screen;
         }
-        
+
+        public static SCENE_TOP:string = 'sceneTop';
+        public static SCENE_SKETCH:string = 'sceneSketch';
+
         private _state:string;
     
         get state(): string {
@@ -48,6 +51,21 @@ module model {
         set state(value: string) {
             this._state = value;
             this.dispatchEvent(Model.ON_STATE_CHANGED);
+        }
+
+        private _id:string;
+
+        get id(): string {
+            return this._id;
+        }
+
+        set id(value: string) {
+            if (value) {
+                this._id = value;
+                this.state = Model.SCENE_SKETCH;
+            } else {
+                this.state = Model.SCENE_TOP;
+            }
         }
     }
 }
