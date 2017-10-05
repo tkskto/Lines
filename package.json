@@ -4,7 +4,9 @@
   "description": "This is something of Line.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "release": "pack",
+    "pack": "webpack",
+    "dev": "webpack-dev-server --hot --inline"
   },
   "repository": {
     "type": "git",
@@ -22,5 +24,12 @@
     "@types/gsap": "^1.19.1",
     "gsap": "^1.20.3",
     "createjs-easeljs": "^0.8.2"
+  },
+  "devDependencies": {
+    "awesome-typescript-loader": "^3.2.3",
+    "npm-run-all": "^4.1.1",
+    "source-map-loader": "^0.2.2",
+    "typescript": "^2.5.3",
+    "webpack": "^3.6.0"
   }
 }
