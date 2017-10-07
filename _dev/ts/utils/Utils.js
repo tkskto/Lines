@@ -1,3 +1,5 @@
+import { GLConfig } from "../Config";
+import { Vector } from "../module/Vector";
 var Methods = (function () {
     function Methods() {
     }
@@ -204,7 +206,7 @@ var MatrixUtils = (function () {
         if (_targetPos.x === _cameraPos.x && _targetPos.y === _cameraPos.y && _targetPos.z === _cameraPos.z) {
             return MatrixUtils.initialize(_dist);
         }
-        var vecZ = _targetPos.sub(_cameraPos).normalize();
+        var vecZ = _targetPos.subtract(_cameraPos).normalize();
         var vecX = _cameraUp.cross(vecZ).normalize();
         var vecY = vecZ.cross(vecX).normalize();
         _dist[0] = vecX.x;
@@ -260,11 +262,11 @@ var VectorUtils = (function () {
             var _index1 = _indexArr[i] * 3;
             var _index2 = _indexArr[i] * 3;
             var _index3 = _indexArr[i] * 3;
-            var _vec1 = new THREE.Vector3(_vertexArr[_index1], _vertexArr[_index1 + 1], _vertexArr[_index1 + 2]);
-            var _vec2 = new THREE.Vector3(_vertexArr[_index2], _vertexArr[_index2 + 1], _vertexArr[_index2 + 2]);
-            var _vec3 = new THREE.Vector3(_vertexArr[_index3], _vertexArr[_index3 + 1], _vertexArr[_index3 + 2]);
-            var v1 = _vec2.sub(_vec1).normalize();
-            var v2 = _vec3.sub(_vec1).normalize();
+            var _vec1 = new Vector(_vertexArr[_index1], _vertexArr[_index1 + 1], _vertexArr[_index1 + 2]);
+            var _vec2 = new Vector(_vertexArr[_index2], _vertexArr[_index2 + 1], _vertexArr[_index2 + 2]);
+            var _vec3 = new Vector(_vertexArr[_index3], _vertexArr[_index3 + 1], _vertexArr[_index3 + 2]);
+            var v1 = _vec2.subtract(_vec1).normalize();
+            var v2 = _vec3.subtract(_vec1).normalize();
             distArr[i * 3] = v1.y * v2.z - v1.z * v2.y;
             distArr[i * 3 + 1] = v1.z * v2.x - v1.x * v2.z;
             distArr[i * 3 + 2] = v1.x * v2.y - v1.y * v2.x;
@@ -272,9 +274,9 @@ var VectorUtils = (function () {
         return distArr;
     };
     VectorUtils.getFaceNormalVector = function (_vec1, _vec2, _vec3) {
-        var dist = new THREE.Vector3();
-        var v1 = _vec2.sub(_vec1).normalize();
-        var v2 = _vec3.sub(_vec1).normalize();
+        var dist = new Vector();
+        var v1 = _vec2.subtract(_vec1).normalize();
+        var v2 = _vec3.subtract(_vec1).normalize();
         dist.x = v1.y * v2.z - v1.z * v2.y;
         dist.y = v1.z * v2.x - v1.x * v2.z;
         dist.z = v1.x * v2.y - v1.y * v2.x;

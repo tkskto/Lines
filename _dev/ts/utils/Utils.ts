@@ -1,3 +1,6 @@
+import {GLConfig} from "../Config";
+import {Vector} from "../module/Vector";
+
 export class Methods {
     public static showError(err:string = null) {
         console.log(err || 'error');
@@ -308,20 +311,20 @@ export class MatrixUtils {
      * @param {Float32Array} _dist 変換行列
      * @returns {Float32Array}
      */
-    public static lookAt(_targetPos:number[], _cameraPos:number[], _cameraUp:number[], _dist:Float32Array):Float32Array {
+    public static lookAt(_targetPos:Vector, _cameraPos:Vector, _cameraUp:Vector, _dist:Float32Array):Float32Array {
         // カメラの位置と見る地点が同じ場合は正方行列を返す
         if (_targetPos.x === _cameraPos.x && _targetPos.y === _cameraPos.y && _targetPos.z === _cameraPos.z) {
             return MatrixUtils.initialize(_dist);
         }
 
         // cameraPos -> targetまでの各ベクトル
-        let vecZ:number[] = _targetPos.sub(_cameraPos).normalize();
+        let vecZ:Vector = _targetPos.subtract(_cameraPos).normalize();
 
         // 上部ベクトルとz軸ベクトルの外積をとると、x軸ベクトルが求められる
-        let vecX:number[] = _cameraUp.cross(vecZ).normalize();
+        let vecX:Vector = _cameraUp.cross(vecZ).normalize();
 
         //z軸ベクトルとx軸ベクトルの外積をとると、y軸ベクトルが求められる
-        let vecY:number[] = vecZ.cross(vecX).normalize();
+        let vecY:Vector = vecZ.cross(vecX).normalize();
 
         //最終的に座標変換用の行列をつくる
         _dist[0] = vecX.x; _dist[1] = vecY.x; _dist[2]  = vecZ.x; _dist[3]  = 0;
@@ -368,12 +371,12 @@ export class VectorUtils {
             let _index2:number = _indexArr[i] * 3;
             let _index3:number = _indexArr[i] * 3;
 
-            let _vec1:THREE.Vector3 = new THREE.Vector3(_vertexArr[_index1], _vertexArr[_index1 + 1], _vertexArr[_index1 + 2]);
-            let _vec2:THREE.Vector3 = new THREE.Vector3(_vertexArr[_index2], _vertexArr[_index2 + 1], _vertexArr[_index2 + 2]);
-            let _vec3:THREE.Vector3 = new THREE.Vector3(_vertexArr[_index3], _vertexArr[_index3 + 1], _vertexArr[_index3 + 2]);
+            let _vec1:Vector = new Vector(_vertexArr[_index1], _vertexArr[_index1 + 1], _vertexArr[_index1 + 2]);
+            let _vec2:Vector = new Vector(_vertexArr[_index2], _vertexArr[_index2 + 1], _vertexArr[_index2 + 2]);
+            let _vec3:Vector = new Vector(_vertexArr[_index3], _vertexArr[_index3 + 1], _vertexArr[_index3 + 2]);
 
-            let v1:THREE.Vector3 = _vec2.sub(_vec1).normalize();
-            let v2:THREE.Vector3 = _vec3.sub(_vec1).normalize();
+            let v1:Vector = _vec2.subtract(_vec1).normalize();
+            let v2:Vector = _vec3.subtract(_vec1).normalize();
 
             distArr[i * 3] = v1.y * v2.z - v1.z * v2.y;
             distArr[i * 3 + 1] = v1.z * v2.x - v1.x * v2.z;
@@ -383,10 +386,10 @@ export class VectorUtils {
         return distArr;
     }
 
-    public static getFaceNormalVector(_vec1:THREE.Vector3, _vec2:THREE.Vector3, _vec3:THREE.Vector3):THREE.Vector3 {
-        let dist:THREE.Vector3 = new THREE.Vector3();
-        let v1:THREE.Vector3 = _vec2.sub(_vec1).normalize();
-        let v2:THREE.Vector3 = _vec3.sub(_vec1).normalize();
+    public static getFaceNormalVector(_vec1:Vector, _vec2:Vector, _vec3:Vector):Vector {
+        let dist:Vector = new Vector();
+        let v1:Vector = _vec2.subtract(_vec1).normalize();
+        let v2:Vector = _vec3.subtract(_vec1).normalize();
 
         dist.x = v1.y * v2.z - v1.z * v2.y;
         dist.y = v1.z * v2.x - v1.x * v2.z;
