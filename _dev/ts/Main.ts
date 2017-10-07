@@ -29,11 +29,11 @@ import {Item1} from "./sketch/01/Item";
             }
         }
 
-        window.addEventListener('hashchange', function () {
-            let hash = location.hash;
-            _model.id = hash.split('#')[1];
-        });
+        window.addEventListener('hashchange', onHashChange);
+        onHashChange();
+    }
 
+    function onHashChange() {
         let hash = location.hash;
         if (hash) {
             _model.id = hash.split('#')[1];
