@@ -15,7 +15,6 @@ export class Lines extends createjs.Container {
     }
 
     private init = () => {
-
         this._lineNum = Math.round((this._width + this._height) / this.SPACE);
 
         for(let i = 0; i < this._lineNum; i++) {
@@ -23,6 +22,14 @@ export class Lines extends createjs.Container {
             this._arr.push(_line);
             this.addChild(_line);
         }
+    };
+
+    public reset = () => {
+        for ( let i = 0; i < this._lineNum; i++) {
+            this._arr[i].init();
+        }
+        this._endCount = 0;
+        this._endFlg = false;
     };
 
     public update = () => {

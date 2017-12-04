@@ -13,8 +13,7 @@ export class Line extends createjs.Shape {
         this.init();
     }
 
-    private init = () => {
-
+    public init = () => {
         this._startPoint = {
             x: this._num * this._space,
             y: this._num * this._space * -1

@@ -4,8 +4,8 @@ var Shader = (function () {
         var _this = this;
         this._gl = _gl;
         this.compile = function () {
-            _this._VS = GLUtils.createShader(_this._vertexString, _this._gl);
-            _this._FS = GLUtils.createShader(_this._fragmentString, _this._gl);
+            _this._VS = GLUtils.createVertexShader(_this._vertexString, _this._gl);
+            _this._FS = GLUtils.createFragmentShader(_this._fragmentString, _this._gl);
         };
         this._vertexString = _vs;
         this._fragmentString = _fs;

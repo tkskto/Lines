@@ -28,7 +28,8 @@ export class Item1 extends Sketch {
     };
 
     public dispose = ():void => {
-
+        this.pause();
+        this._lines.reset();
     };
 
     public update = () => {
@@ -36,7 +37,6 @@ export class Item1 extends Sketch {
     };
 
     public animate = () => {
-
         this._lines.update();
 
         this._stage.update();

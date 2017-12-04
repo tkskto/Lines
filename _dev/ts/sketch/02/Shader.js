@@ -62,4 +62,72 @@ var NormalShader = (function (_super) {
     return NormalShader;
 }(Shader));
 export { NormalShader };
+var CanvasShader = (function (_super) {
+    __extends(CanvasShader, _super);
+    function CanvasShader(_gl) {
+        var _this = _super.call(this, _gl, [
+            'attribute vec3 position;',
+            'attribute vec3 normal;',
+            'attribute vec4 color;',
+            'attribute vec2 texCoord;',
+            'uniform   mat4 mMatrix;',
+            'uniform   mat4 mvpMatrix;',
+            'uniform   mat4 invMatrix;',
+            'uniform   vec3 lightPosition;',
+            'uniform   vec3 eyePosition;',
+            'varying   vec4 vColor;',
+            'varying   vec3 vEyeDirection;',
+            'varying   vec3 vLightDirection;',
+            'varying   vec2 vTexCoord;',
+            'void main(void){',
+            'vec3 pos      = (mMatrix * vec4(position, 0.0)).xyz;',
+            'vec3 invEye   = (invMatrix * vec4(eyePosition, 0.0)).xyz;',
+            'vec3 invLight = (invMatrix * vec4(lightPosition, 0.0)).xyz;',
+            'vec3 eye      = invEye - pos;',
+            'vec3 light    = invLight - pos;',
+            'vec3 n = normalize(normal);',
+            'vec3 t = normalize(cross(normal, vec3(0.0, 1.0, 0.0)));',
+            'vec3 b = cross(n, t);',
+            'vEyeDirection.x   = dot(t, eye);',
+            'vEyeDirection.y   = dot(b, eye);',
+            'vEyeDirection.z   = dot(n, eye);',
+            'normalize(vEyeDirection);',
+            'vLightDirection.x = dot(t, light);',
+            'vLightDirection.y = dot(b, light);',
+            'vLightDirection.z = dot(n, light);',
+            'normalize(vLightDirection);',
+            'vColor         = color;',
+            'vTexCoord  = texCoord;',
+            'gl_Position    = mvpMatrix * vec4(position, 1.0);',
+            '}'
+        ].join(''), [
+            'precision mediump float;',
+            'uniform sampler2D texture;',
+            'uniform int bumpFlg;',
+            'varying vec4 vColor;',
+            'varying vec2 vTexCoord;',
+            'varying vec3 vEyeDirection;',
+            'varying vec3 vLightDirection;',
+            'void main(void){',
+            'vec4  destColor = vec4(0.0);',
+            'if(bool(bumpFlg)) {',
+            'vec3 mNormal    = (texture2D(texture, vTexCoord) * 2.0 - 1.0).rgb;',
+            'vec3 light      = normalize(vLightDirection);',
+            'vec3 eye        = normalize(vEyeDirection);',
+            'vec3 halfLE     = normalize(light + eye);',
+            'float diffuse   = clamp(dot(mNormal, light), 0.1, 1.0);',
+            'float specular  = pow(clamp(dot(mNormal, halfLE), 0.0, 1.0), 100.0);',
+            'destColor = vColor * vec4(vec3(diffuse), 1.0) + vec4(vec3(specular), 1.0);',
+            '} else {',
+            'destColor = texture2D(texture, vTexCoord);',
+            '}',
+            'gl_FragColor = destColor;',
+            '}'
+        ].join('')) || this;
+        _this.compile();
+        return _this;
+    }
+    return CanvasShader;
+}(Shader));
+export { CanvasShader };
 //# sourceMappingURL=Shader.js.map

@@ -28,6 +28,8 @@ var Item1 = (function (_super) {
             _this.play();
         };
         _this.dispose = function () {
+            _this.pause();
+            _this._lines.reset();
         };
         _this.update = function () {
             _this.animate();

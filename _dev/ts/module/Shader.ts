@@ -13,8 +13,8 @@ export class Shader {
     }
 
     public compile = () => {
-        this._VS = GLUtils.createShader(this._vertexString, this._gl);
-        this._FS = GLUtils.createShader(this._fragmentString, this._gl);
+        this._VS = GLUtils.createVertexShader(this._vertexString, this._gl);
+        this._FS = GLUtils.createFragmentShader(this._fragmentString, this._gl);
     };
 
     get VS(): WebGLShader {

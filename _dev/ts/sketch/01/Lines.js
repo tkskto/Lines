@@ -27,6 +27,13 @@ var Lines = (function (_super) {
                 _this.addChild(_line);
             }
         };
+        _this.reset = function () {
+            for (var i = 0; i < _this._lineNum; i++) {
+                _this._arr[i].init();
+            }
+            _this._endCount = 0;
+            _this._endFlg = false;
+        };
         _this.update = function () {
             for (var i = 0; i < _this._lineNum; i++) {
                 if (!_this._arr[i].endFlg) {

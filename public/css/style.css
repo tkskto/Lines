@@ -18,6 +18,14 @@ body {
     position: relative;
 }
 
+body.canvas2D #myCanvasGL {
+    display: none;
+}
+
+body.webGL #myCanvas2d {
+    display: none;
+}
+
 .canvasWrap {
     position: absolute;
     top: 0;
@@ -28,4 +36,9 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: -1;
+}
+
+ul, ol {
+    margin: 0;
 }
