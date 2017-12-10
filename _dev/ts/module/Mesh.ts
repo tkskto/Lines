@@ -3,19 +3,23 @@
  */
 
 
-import {GLUtils, MatrixUtils, Methods} from "../utils/Utils";
-import {Vector} from "./Vector";
-import {Geometry} from "./Geometry";
-import {Program} from "./Program";
+import { GLUtils, MatrixUtils, Methods } from '../utils/Utils';
+import { Vector } from './Vector';
+import { Geometry } from './Geometry';
+import { Program } from './Program';
+import { GLConfig } from '../Config';
 
 export class Mesh {
 
     private _id: number;
     private _mMatrix: Float32Array;
     private _position: { x: number, y: number, z: number } = {x: 0, y: 0, z: 0};
+    private _drawType: number;
 
-    constructor(private _gl: WebGLRenderingContext, private _prg: Program, private _geometry: Geometry) {
+    constructor(private _gl: WebGLRenderingContext, private _prg: Program, private _geometry: Geometry, _drawType: string = GLConfig.DRAW_TYPE_TRIANGLE) {
         this._mMatrix = MatrixUtils.initialize(MatrixUtils.create());
+
+        this.setDrawType(_drawType);
     }
 
     public reset = () => {
@@ -23,7 +27,7 @@ export class Mesh {
         this._position = {x: 0, y: 0, z: 0};
     };
 
-    public ready = (_values: any[] = null) => {
+    public ready = (_values: any[] = undefined) => {
         GLUtils.setAttr(this._gl, this._geometry.vbo, this._prg.attl, this._prg.atts);
 
         if (this._geometry.ibo) {
@@ -35,16 +39,41 @@ export class Mesh {
         }
     };
 
-    public drawPoints = () => {
-        this._gl.drawArrays(this._gl.POINTS, 0, this._geometry.VERTEX.length);
+    private setDrawType = (_type: string) => {
+        switch (_type) {
+            case GLConfig.DRAW_TYPE_POINT:
+                this._drawType = this._gl.POINTS;
+                break;
+            case GLConfig.DRAW_TYPE_LINE:
+                this._drawType = this._gl.LINES;
+                break;
+            case GLConfig.DRAW_TYPE_LINE_STRIP:
+                this._drawType = this._gl.LINE_STRIP;
+                break;
+            case GLConfig.DRAW_TYPE_LINE_LOOP:
+                this._drawType = this._gl.LINE_LOOP;
+                break;
+            case GLConfig.DRAW_TYPE_TRIANGLE:
+                this._drawType = this._gl.TRIANGLES;
+                break;
+            case GLConfig.DRAW_TYPE_TRIANGLE_STRIP:
+                this._drawType = this._gl.TRIANGLE_STRIP;
+                break;
+            case GLConfig.DRAW_TYPE_TRIANGLE_FAN:
+                this._drawType = this._gl.TRIANGLE_FAN;
+                break;
+            default:
+                this._drawType = this._gl.TRIANGLES;
+                break;
+        }
     };
 
     public drawElements = () => {
-        this._gl.drawElements(this._gl.TRIANGLES, this._geometry.INDEX.length, this._gl.UNSIGNED_SHORT, 0);
+        this._gl.drawElements(this._drawType, this._geometry.INDEX.length, this._gl.UNSIGNED_SHORT, 0);
     };
 
-    public drawStrip = () => {
-        this._gl.drawArrays(this._gl.TRIANGLE_STRIP, 0, this._geometry.VERTEX.length / 3);
+    public drawArrays = () => {
+        this._gl.drawArrays(this._drawType, 0, this._geometry.VERTEX.length / 3);
     };
 
     /**
@@ -52,7 +81,7 @@ export class Mesh {
      * @param {data.Vector} _vec
      */
     public translate = (_vec: Vector | number[]): void => {
-        let mat: Float32Array = this._mMatrix.copyWithin(0, 0);
+        const mat: Float32Array = this._mMatrix.copyWithin(0, 0);
         this._mMatrix[0] = mat[0];
         this._mMatrix[1] = mat[1];
         this._mMatrix[2] = mat[2];
@@ -92,7 +121,7 @@ export class Mesh {
      * @param {data.Vector} _vec
      */
     public scale = (_vec: Vector | number[]): void => {
-        let mat: Float32Array = this._mMatrix.copyWithin(0, 0);
+        const mat: Float32Array = this._mMatrix.copyWithin(0, 0);
         if (_vec instanceof Vector) {
             this._mMatrix[0] = mat[0] * _vec.x;
             this._mMatrix[1] = mat[1] * _vec.x;
@@ -129,16 +158,8 @@ export class Mesh {
         this._mMatrix[15] = mat[15];
     };
 
-    /**
-     * 平面を立体に
-     * @param {number} _depth
-     */
-    public extrude = (_depth: number) => {
-
-    };
-
     public rotate = (_angle: number, _axis: Vector | number[]): void => {
-        let mat: Float32Array = this._mMatrix.copyWithin(0, 0);
+        const mat: Float32Array = this._mMatrix.copyWithin(0, 0);
 
         let sq: number;
         let a: number, b: number, c: number;
@@ -156,17 +177,17 @@ export class Mesh {
         }
 
         if (!sq) {
-            return null;
+            return undefined;
         }
 
-        if (sq != 1) {
+        if (sq !== 1) {
             sq = 1 / sq;
             a *= sq;
             b *= sq;
             c *= sq;
         }
 
-        let d = Math.sin(_angle), e = Math.cos(_angle), f = 1 - e,
+        const d = Math.sin(_angle), e = Math.cos(_angle), f = 1 - e,
             g = mat[0], h = mat[1], i = mat[2], j = mat[3],
             k = mat[4], l = mat[5], m = mat[6], n = mat[7],
             o = mat[8], p = mat[9], q = mat[10], r = mat[11],
@@ -181,7 +202,7 @@ export class Mesh {
             A = c * c * f + e;
 
         if (_angle) {
-            if (mat != this._mMatrix) {
+            if (mat !== this._mMatrix) {
                 this._mMatrix[12] = mat[12];
                 this._mMatrix[13] = mat[13];
                 this._mMatrix[14] = mat[14];

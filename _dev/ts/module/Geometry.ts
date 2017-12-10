@@ -1,18 +1,23 @@
-import {GLUtils} from "../utils/Utils";
+import { GLUtils } from '../utils/Utils';
+import { Data } from '../sketch/02/Data';
 
 export class Geometry {
     private _vbo: WebGLBuffer[] = [];
     private _ibo: WebGLBuffer;
 
-    private _VERTEX: number[] = [];
-    private _INDEX: number[] = [];
-    private _COLOR: number[] = [];
-    private _NORMAL: number[] = [];
+    private _VERTEX: number[];
+    private _INDEX: number[];
+    private _COLOR: number[];
+    private _NORMAL: number[];
 
-    constructor(private _gl: WebGLRenderingContext) {
+    constructor(private _gl: WebGLRenderingContext, _data: Data = new Data()) {
+        this._VERTEX = _data.vertex;
+        this._INDEX = _data.index;
+        this._COLOR = _data.color;
+        this._NORMAL = _data.normal;
     }
 
-    public init = () => {
+    public init = (): Geometry => {
         if (this._VERTEX.length > 0) {
             this._vbo[0] = GLUtils.createVBO(this._gl, this._VERTEX);
         }
@@ -24,6 +29,8 @@ export class Geometry {
         if (this._INDEX) {
             this._ibo = GLUtils.createIBO(this._gl, this._INDEX);
         }
+
+        return this;
     };
 
     get ibo(): WebGLBuffer {

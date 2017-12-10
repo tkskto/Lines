@@ -8,38 +8,50 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import { Sketch } from "../Sketch";
-import { CanvasShader, NormalShader } from "./Shader";
-import { GLUtils } from "../../utils/Utils";
-import { WebGLContext } from "../../module/Context";
+import { Sketch } from '../common/Sketch';
+import { Default } from './Shader';
+import { WebGLContext } from '../../module/Context';
+import { Data } from './Data';
+import { Renderer } from '../../module/Renderer';
+import { Geometry } from '../../module/Geometry';
+import { Mesh } from '../../module/Mesh';
+import { Program } from '../../module/Program';
+import { GLConfig } from '../../Config';
 var Item2 = (function (_super) {
     __extends(Item2, _super);
     function Item2(_model, _canvas, _id, _type) {
         var _this = _super.call(this, _model, _id, _type) || this;
         _this._canvas = _canvas;
+        _this._data = new Data();
         _this.setup = function () {
             _this._ctx = new WebGLContext(_this._model, _this._canvas);
             _this._gl = _this._ctx.ctx;
-            _this._normalShader = new NormalShader(_this._gl);
-            _this._canvasShader = new CanvasShader(_this._gl);
-            _this._normal = GLUtils.createProgram(_this._gl, _this._normalShader.VS, _this._normalShader.FS);
-            _this.clear();
-            _this._gl.viewport(0, 0, _this._canvas.width, _this._canvas.height);
+            _this._shader = new Default(_this._gl);
+            _this._default = new Program(_this._ctx.ctx, _this._shader, ['position'], [3], ['mvpMatrix'], [GLConfig.UNIFORM_TYPE_MATRIX4]);
+            _this._renderer = new Renderer(_this._ctx, _this._model);
+            var line = new Geometry(_this._ctx.ctx, _this._data).init();
+            var mesh = new Mesh(_this._ctx.ctx, _this._default, line, GLConfig.DRAW_TYPE_LINE);
+            _this._renderer.add(mesh);
             _this.play();
         };
         _this.clear = function () {
-            _this._gl.clearColor(1.0, 1.0, 1.0, 1.0);
+            _this._gl.clearColor(0.0, 0.0, 0.0, 1.0);
             _this._gl.clearDepth(1.0);
             _this._gl.clear(_this._gl.COLOR_BUFFER_BIT | _this._gl.DEPTH_BUFFER_BIT);
         };
         _this.dispose = function () {
             _this.pause();
+            if (_this._renderer) {
+                _this._renderer.dispose();
+            }
         };
         _this.update = function () {
             _this.animate();
             _this._timer = requestAnimationFrame(_this.update);
         };
         _this.animate = function () {
+            _this.clear();
+            _this._renderer.update();
         };
         return _this;
     }

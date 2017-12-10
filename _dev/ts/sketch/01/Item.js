@@ -8,9 +8,9 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import { Sketch } from "../Sketch";
+import { Sketch } from '../common/Sketch';
 import { Text } from '../../module/Text';
-import { Lines } from "./Lines";
+import { Lines } from './Lines';
 var Item1 = (function (_super) {
     __extends(Item1, _super);
     function Item1(_model, _canvas, id, type) {
@@ -29,7 +29,9 @@ var Item1 = (function (_super) {
         };
         _this.dispose = function () {
             _this.pause();
-            _this._lines.reset();
+            if (_this._lines) {
+                _this._lines.reset();
+            }
         };
         _this.update = function () {
             _this.animate();
@@ -38,7 +40,7 @@ var Item1 = (function (_super) {
             _this._lines.update();
             _this._stage.update();
             if (_this._lines.endFlg) {
-                createjs.Ticker.removeEventListener("tick", _this.update);
+                createjs.Ticker.removeEventListener('tick', _this.update);
             }
         };
         return _this;

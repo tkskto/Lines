@@ -1,14 +1,14 @@
-import {MatrixUtils, Methods} from '../utils/Utils';
-import {Vector} from "./Vector";
+import { MatrixUtils, Methods } from '../utils/Utils';
+import { Vector } from './Vector';
 
 /**
  * ( This class has been influenced by https://wgld.org )
  */
 export class Quaternion {
-    private _vector:Vector;
-    private _radian:number;
+    private _vector: Vector;
+    private _radian: number;
 
-    constructor(_vec:Vector = new Vector(), _rad:number = 0) {
+    constructor(_vec: Vector = new Vector(), _rad = 0) {
         this._vector = _vec;
         this._radian = _rad;
     }
@@ -29,24 +29,24 @@ export class Quaternion {
         this._vector = value;
     }
 
-    get length():number {
-        let x:number = this._vector.x;
-        let y:number = this._vector.y;
-        let z:number = this._vector.z;
+    get length(): number {
+        const x: number = this._vector.x;
+        const y: number = this._vector.y;
+        const z: number = this._vector.z;
         return Math.sqrt(x * x + y * y + z * z + this._radian * this._radian);
     }
 
-    public initialize = (_q:Quaternion):Quaternion => {
+    public initialize = (_q: Quaternion): Quaternion => {
         this._vector.initialize();
         this._radian = 1;
         return this;
     };
 
-    public clone = ():Quaternion => {
+    public clone = (): Quaternion => {
         return new Quaternion(this._vector, this.radian);
     };
 
-    public normalize = ():Quaternion => {
+    public normalize = (): Quaternion => {
         let len = this.length;
         if (!len) {
             this._vector.initialize();
@@ -60,7 +60,7 @@ export class Quaternion {
         return this;
     };
 
-    public inverse = ():Quaternion => {
+    public inverse = (): Quaternion => {
         this._vector.x *= -1;
         this._vector.y *= -1;
         this._vector.z *= -1;
@@ -72,10 +72,10 @@ export class Quaternion {
      * @param {data.Quaternion} _q
      * @returns {data.Quaternion}
      */
-    public multiply = (_q:Quaternion):Quaternion => {
-        let dest:Quaternion = new Quaternion();
-        let x1 = this._vector.x, y1 = this._vector.y, z1 = this._vector.z, r1 = this._radian;
-        let x2 = _q._vector.x, y2 = _q._vector.y, z2 = _q._vector.z, r2 = _q._radian;
+    public multiply = (_q: Quaternion): Quaternion => {
+        const dest: Quaternion = new Quaternion();
+        const x1 = this._vector.x, y1 = this._vector.y, z1 = this._vector.z, r1 = this._radian;
+        const x2 = _q._vector.x, y2 = _q._vector.y, z2 = _q._vector.z, r2 = _q._radian;
 
         dest._vector.x = x1 * r2 + r1 * x2 + y1 * z2 - z1 * y2;
         dest._vector.y = y1 * r2 + r1 * y2 + z1 * x2 - x1 * z2;
@@ -90,30 +90,30 @@ export class Quaternion {
      * @param axis 回転軸
      * @returns {data.Quaternion}
      */
-    public rotate = (angle:number, axis:Vector|number[]):Quaternion => {
-        let sq:number = axis.length;
+    public rotate = (angle: number, axis: Vector|number[]): Quaternion => {
+        let sq: number = axis.length;
 
-        if(!sq){
+        if (!sq) {
             Methods.showError('回転軸がおかしいです。');
-            return null;
+            return undefined;
         }
 
-        let x:number, y:number, z:number;
+        let x: number, y: number, z: number;
 
         if (axis instanceof Vector) {
             axis.normalize();
             x = axis.x;
             y = axis.y;
             z = axis.z;
-        } else if(axis instanceof Array) {
-            let len = Math.sqrt(axis[0] * axis[0] + axis[1] * axis[1] + axis[2] * axis[2]);
-            if(!len){return null;}
+        } else if (axis instanceof Array) {
+            const len = Math.sqrt(axis[0] * axis[0] + axis[1] * axis[1] + axis[2] * axis[2]);
+            if (!len) {return undefined; }
 
             x = axis[0];
             y = axis[1];
             z = axis[2];
 
-            if(sq != 1){
+            if (sq !== 1) {
                 sq = 1 / sq;
                 x *= sq;
                 y *= sq;
@@ -124,7 +124,7 @@ export class Quaternion {
             Methods.showError('axis is unknown types.');
         }
 
-        let s = Math.sin(angle * 0.5);
+        const s = Math.sin(angle * 0.5);
 
         this._vector.x = x * s;
         this._vector.y = y * s;
@@ -140,8 +140,8 @@ export class Quaternion {
      * @param {data.Vector} _dest
      * @returns {data.Vector}
      */
-    public toVector = (_axis:Vector, _qt:Quaternion, _dest:Vector = new Vector()):Vector => {
-        let qp = new Quaternion();
+    public toVector = (_axis: Vector, _qt: Quaternion, _dest: Vector = new Vector()): Vector => {
+        const qp = new Quaternion();
         let qr = new Quaternion();
 
         qr = _qt.clone().inverse();
@@ -150,7 +150,7 @@ export class Quaternion {
         qp.vector.y = _axis.y;
         qp.vector.z = _axis.z;
 
-        let qq = qr.multiply(qp);
+        const qq = qr.multiply(qp);
         qr = qq.multiply(_qt);
 
         _dest = qr.vector;
@@ -163,16 +163,16 @@ export class Quaternion {
      * @param {Float32Array} _dest
      * @returns {Float32Array}
      */
-    public toMatrix = (_dest:Float32Array = MatrixUtils.create()):Float32Array => {
-        let x = this.vector.x;
-        let y = this.vector.y;
-        let z = this.vector.z;
-        let w = this.radian;
+    public toMatrix = (_dest: Float32Array = MatrixUtils.create()): Float32Array => {
+        const x = this.vector.x;
+        const y = this.vector.y;
+        const z = this.vector.z;
+        const w = this.radian;
 
-        let x2 = x + x, y2 = y + y, z2 = z + z;
-        let xx = x * x2, xy = x * y2, xz = x * z2;
-        let yy = y * y2, yz = y * z2, zz = z * z2;
-        let wx = w * x2, wy = w * y2, wz = w * z2;
+        const x2 = x + x, y2 = y + y, z2 = z + z;
+        const xx = x * x2, xy = x * y2, xz = x * z2;
+        const yy = y * y2, yz = y * z2, zz = z * z2;
+        const wx = w * x2, wy = w * y2, wz = w * z2;
 
         _dest[0]  = 1 - (yy + zz);
         _dest[1]  = xy - wz;

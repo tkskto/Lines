@@ -1,7 +1,9 @@
-import { GLUtils, MatrixUtils, Methods } from "../utils/Utils";
-import { Vector } from "./Vector";
+import { GLUtils, MatrixUtils, Methods } from '../utils/Utils';
+import { Vector } from './Vector';
+import { GLConfig } from '../Config';
 var Mesh = (function () {
-    function Mesh(_gl, _prg, _geometry) {
+    function Mesh(_gl, _prg, _geometry, _drawType) {
+        if (_drawType === void 0) { _drawType = GLConfig.DRAW_TYPE_TRIANGLE; }
         var _this = this;
         this._gl = _gl;
         this._prg = _prg;
@@ -12,7 +14,7 @@ var Mesh = (function () {
             _this._position = { x: 0, y: 0, z: 0 };
         };
         this.ready = function (_values) {
-            if (_values === void 0) { _values = null; }
+            if (_values === void 0) { _values = undefined; }
             GLUtils.setAttr(_this._gl, _this._geometry.vbo, _this._prg.attl, _this._prg.atts);
             if (_this._geometry.ibo) {
                 _this._gl.bindBuffer(_this._gl.ELEMENT_ARRAY_BUFFER, _this._geometry.ibo);
@@ -21,14 +23,39 @@ var Mesh = (function () {
                 GLUtils.setUniform(_this._gl, _this._prg.uniType, _this._prg.unil, _values);
             }
         };
-        this.drawPoints = function () {
-            _this._gl.drawArrays(_this._gl.POINTS, 0, _this._geometry.VERTEX.length);
+        this.setDrawType = function (_type) {
+            switch (_type) {
+                case GLConfig.DRAW_TYPE_POINT:
+                    _this._drawType = _this._gl.POINTS;
+                    break;
+                case GLConfig.DRAW_TYPE_LINE:
+                    _this._drawType = _this._gl.LINES;
+                    break;
+                case GLConfig.DRAW_TYPE_LINE_STRIP:
+                    _this._drawType = _this._gl.LINE_STRIP;
+                    break;
+                case GLConfig.DRAW_TYPE_LINE_LOOP:
+                    _this._drawType = _this._gl.LINE_LOOP;
+                    break;
+                case GLConfig.DRAW_TYPE_TRIANGLE:
+                    _this._drawType = _this._gl.TRIANGLES;
+                    break;
+                case GLConfig.DRAW_TYPE_TRIANGLE_STRIP:
+                    _this._drawType = _this._gl.TRIANGLE_STRIP;
+                    break;
+                case GLConfig.DRAW_TYPE_TRIANGLE_FAN:
+                    _this._drawType = _this._gl.TRIANGLE_FAN;
+                    break;
+                default:
+                    _this._drawType = _this._gl.TRIANGLES;
+                    break;
+            }
         };
         this.drawElements = function () {
-            _this._gl.drawElements(_this._gl.TRIANGLES, _this._geometry.INDEX.length, _this._gl.UNSIGNED_SHORT, 0);
+            _this._gl.drawElements(_this._drawType, _this._geometry.INDEX.length, _this._gl.UNSIGNED_SHORT, 0);
         };
-        this.drawStrip = function () {
-            _this._gl.drawArrays(_this._gl.TRIANGLE_STRIP, 0, _this._geometry.VERTEX.length / 3);
+        this.drawArrays = function () {
+            _this._gl.drawArrays(_this._drawType, 0, _this._geometry.VERTEX.length / 3);
         };
         this.translate = function (_vec) {
             var mat = _this._mMatrix.copyWithin(0, 0);
@@ -101,8 +128,6 @@ var Mesh = (function () {
             _this._mMatrix[14] = mat[14];
             _this._mMatrix[15] = mat[15];
         };
-        this.extrude = function (_depth) {
-        };
         this.rotate = function (_angle, _axis) {
             var mat = _this._mMatrix.copyWithin(0, 0);
             var sq;
@@ -120,9 +145,9 @@ var Mesh = (function () {
                 c = _axis[2];
             }
             if (!sq) {
-                return null;
+                return undefined;
             }
-            if (sq != 1) {
+            if (sq !== 1) {
                 sq = 1 / sq;
                 a *= sq;
                 b *= sq;
@@ -130,7 +155,7 @@ var Mesh = (function () {
             }
             var d = Math.sin(_angle), e = Math.cos(_angle), f = 1 - e, g = mat[0], h = mat[1], i = mat[2], j = mat[3], k = mat[4], l = mat[5], m = mat[6], n = mat[7], o = mat[8], p = mat[9], q = mat[10], r = mat[11], s = a * a * f + e, t = b * a * f + c * d, u = c * a * f - b * d, v = a * b * f - c * d, w = b * b * f + e, x = c * b * f + a * d, y = a * c * f + b * d, z = b * c * f - a * d, A = c * c * f + e;
             if (_angle) {
-                if (mat != _this._mMatrix) {
+                if (mat !== _this._mMatrix) {
                     _this._mMatrix[12] = mat[12];
                     _this._mMatrix[13] = mat[13];
                     _this._mMatrix[14] = mat[14];
@@ -160,6 +185,7 @@ var Mesh = (function () {
             _this._mMatrix = MatrixUtils.multiply(_this._mMatrix, _qMatrix, _this._mMatrix);
         };
         this._mMatrix = MatrixUtils.initialize(MatrixUtils.create());
+        this.setDrawType(_drawType);
     }
     Object.defineProperty(Mesh.prototype, "mMatrix", {
         get: function () {

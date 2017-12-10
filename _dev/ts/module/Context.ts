@@ -1,14 +1,14 @@
-import {Model} from '../Model';
-import {Methods} from "../utils/Utils";
+import { Model } from '../Model';
+import { Methods } from '../utils/Utils';
 
 export class WebGLContext {
-    private _ratio:number;
-    private _canvas:HTMLCanvasElement;
-    private _ctx:WebGLRenderingContext;
+    private _ratio: number;
+    private _canvas: HTMLCanvasElement;
+    private _ctx: WebGLRenderingContext;
 
-    private _extVAO:any;
+    private _extVAO: any;
 
-    constructor(private _model:Model, _canvas:HTMLCanvasElement) {
+    constructor(private _model: Model, _canvas: HTMLCanvasElement) {
         this._ratio = window.devicePixelRatio;
         this._canvas = _canvas;
 
@@ -23,8 +23,8 @@ export class WebGLContext {
         }
 
         // VAOを有効化
-        this._extVAO = this._ctx.getExtension('OES_vertex_array_object')
-        if(!this._extVAO){
+        this._extVAO = this._ctx.getExtension('OES_vertex_array_object');
+        if (!this._extVAO) {
             alert('vertex array object not supported');
             return;
         }

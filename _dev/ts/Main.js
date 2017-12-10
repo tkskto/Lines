@@ -1,12 +1,12 @@
 import { Model } from './Model';
-import { Item1 } from "./sketch/01/Item";
-import { Item2 } from "./sketch/02/Item2";
+import { Item1 } from './sketch/01/Item';
+import { Item2 } from './sketch/02/Item2';
 (function (win, doc) {
     'use strict';
     var _model = Model.instance();
     var _canvas2d;
     var _canvasGL;
-    var _ratio = window.devicePixelRatio;
+    _model.ratio = window.devicePixelRatio;
     function init() {
         _canvas2d = doc.getElementById('myCanvas2d');
         _canvasGL = doc.getElementById('myCanvasGL');
@@ -14,9 +14,9 @@ import { Item2 } from "./sketch/02/Item2";
         createjs.Ticker.timingMode = createjs.Ticker.RAF;
         var sketch = doc.querySelectorAll('.sketch');
         for (var i = 0, len = sketch.length; i < len; i++) {
-            var id = sketch[i].attributes['id'].value;
+            var id = sketch[i].attributes.getNamedItem('id').value;
             var type = sketch[i].attributes['data-sketch-type'].value;
-            var _canvas = type === 'canvas2D' ? _canvas2d : type === 'webGL' ? _canvasGL : null;
+            var _canvas = type === 'canvas2D' ? _canvas2d : type === 'webGL' ? _canvasGL : undefined;
             switch (id) {
                 case '01':
                     new Item1(_model, _canvas, id, type);
@@ -36,24 +36,26 @@ import { Item2 } from "./sketch/02/Item2";
         onHashChange();
     }
     function onResize() {
-        _canvas2d.width = _model.screen.width * _ratio * .8;
-        _canvas2d.height = _canvas2d.width * (_model.screen.height / _model.screen.width);
-        _canvas2d.style.width = _canvas2d.width / _ratio + 'px';
-        _canvas2d.style.height = _canvas2d.height / _ratio + 'px';
-        _canvasGL.width = _model.screen.width * _ratio * 0.8;
-        _canvasGL.height = _canvasGL.width * (_model.screen.height / _model.screen.width);
-        _canvasGL.style.width = _canvasGL.width / _ratio + 'px';
-        _canvasGL.style.height = _canvasGL.height / _ratio + 'px';
+        _canvas2d.width = _model.canvas.width;
+        _canvas2d.height = _model.canvas.height;
+        _canvas2d.style.width = _model.canvas.width / _model.ratio + 'px';
+        _canvas2d.style.height = _model.canvas.height / _model.ratio + 'px';
+        _canvasGL.width = _model.canvas.width;
+        _canvasGL.height = _model.canvas.height;
+        _canvasGL.style.width = _model.canvas.width / _model.ratio + 'px';
+        _canvasGL.style.height = _model.canvas.height / _model.ratio + 'px';
     }
     function onHashChange() {
-        var hash = location.hash;
-        if (hash) {
-            _model.id = hash.split('#')[1];
-        }
+        _model.id = location.hash.split('#')[1];
     }
     win.onload = function () {
         _model.setSize(win.innerWidth, win.innerHeight);
         init();
     };
+    doc.addEventListener('keydown', function (e) {
+        if (27 === e.keyCode) {
+            location.hash = '';
+        }
+    });
 })(window, document);
 //# sourceMappingURL=Main.js.map

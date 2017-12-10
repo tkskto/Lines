@@ -17,6 +17,13 @@ var GLConfig = (function () {
     GLConfig.UNIFORM_TYPE_FLOAT = '1f';
     GLConfig.UNIFORM_TYPE_INT_VECTOR = '1iv';
     GLConfig.UNIFORM_TYPE_INT = '1i';
+    GLConfig.DRAW_TYPE_POINT = 'point';
+    GLConfig.DRAW_TYPE_LINE = 'line';
+    GLConfig.DRAW_TYPE_LINE_STRIP = 'line_strip';
+    GLConfig.DRAW_TYPE_LINE_LOOP = 'line_loop';
+    GLConfig.DRAW_TYPE_TRIANGLE = 'triangle';
+    GLConfig.DRAW_TYPE_TRIANGLE_STRIP = 'triangle_strip';
+    GLConfig.DRAW_TYPE_TRIANGLE_FAN = 'triangle_fan';
     return GLConfig;
 }());
 export { GLConfig };

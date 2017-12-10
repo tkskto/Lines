@@ -4,7 +4,7 @@ export class Vector {
     private _y: number;
     private _z: number;
 
-    constructor(x: number = 0, y: number = 0, z: number = 0) {
+    constructor(x = 0, y = 0, z = 0) {
         this._x = x;
         this._y = y;
         this._z = z;
@@ -14,20 +14,20 @@ export class Vector {
         this._x = val;
     }
 
-    set y(val: number) {
-        this._y = val;
-    }
-
-    set z(val: number) {
-        this._z = val;
-    }
-
     get x(): number {
         return this._x;
     }
 
+    set y(val: number) {
+        this._y = val;
+    }
+
     get y(): number {
         return this._y;
+    }
+
+    set z(val: number) {
+        this._z = val;
     }
 
     get z(): number {
@@ -72,7 +72,7 @@ export class Vector {
      * @returns {data.Vector}
      */
     public add = (_vec: Vector): Vector => {
-        let dist: Vector = new Vector();
+        const dist: Vector = new Vector();
         dist.x = this._x + _vec.x;
         dist.y = this._y + _vec.y;
         dist.z = this._z + _vec.z;
@@ -85,7 +85,7 @@ export class Vector {
      * @returns {data.Vector}
      */
     public subtract = (_vec: Vector): Vector => {
-        let dist: Vector = new Vector();
+        const dist: Vector = new Vector();
         dist.x = this._x - _vec.x;
         dist.y = this._y - _vec.y;
         dist.z = this._z - _vec.z;
@@ -107,7 +107,7 @@ export class Vector {
      * @returns {data.Vector}
      */
     public cross = (_vec: Vector): Vector => {
-        let dist: Vector = new Vector();
+        const dist: Vector = new Vector();
         dist.x = this._y * _vec.z - this._z * _vec.y;
         dist.y = this._z * _vec.x - this._x * _vec.z;
         dist.z = this._x * _vec.y - this._y * _vec.x;
@@ -115,7 +115,7 @@ export class Vector {
     };
 
     public rot = (_vec: Vector): number => {
-        let dot = this.dot(_vec);
+        const dot = this.dot(_vec);
         return Math.acos(dot) * 180 / Math.PI;
     }
 }

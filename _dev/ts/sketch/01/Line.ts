@@ -6,7 +6,7 @@ export class Line extends createjs.Shape {
     private _plusX: number;
     private _plusY: number;
 
-    private _endFlg: boolean = false;
+    private _endFlg = false;
 
     constructor(private _num: number, private _allNum: number, private _space: number, private _height: number, private _duration: number) {
         super();
@@ -47,7 +47,7 @@ export class Line extends createjs.Shape {
     };
 
     private render = () => {
-        let g: createjs.Graphics = this.graphics;
+        const g: createjs.Graphics = this.graphics;
 
         g.clear();
         g.setStrokeStyle(3, '10');

@@ -1,11 +1,11 @@
 export class Text extends createjs.Container {
-    constructor(private _width:number, private _height:number) {
+    constructor(private _width: number, private _height: number) {
         super();
         this.init();
     }
 
     private init = () => {
-        let text:createjs.Text = new createjs.Text('WORKS', '240px "roboto"','#ffffff');
+        const text: createjs.Text = new createjs.Text('WORKS', '240px "roboto"', '#ffffff');
         text.textAlign = 'center';
         text.textBaseline = 'middle';
         text.x = this._width * .5;

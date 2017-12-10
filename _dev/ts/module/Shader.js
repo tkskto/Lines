@@ -1,4 +1,4 @@
-import { GLUtils } from "../utils/Utils";
+import { GLUtils } from '../utils/Utils';
 var Shader = (function () {
     function Shader(_gl, _vs, _fs) {
         var _this = this;

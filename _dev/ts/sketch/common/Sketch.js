@@ -1,14 +1,19 @@
-import { Model } from "../Model";
+import { Model } from '../../Model';
 var Sketch = (function () {
     function Sketch(_model, _id, _type) {
         var _this = this;
         this._model = _model;
         this._isPlaying = false;
         this.onStateChanged = function () {
-            if (_this._model.id === _this._id && !_this._isPlaying) {
-                _this.setup();
+            if (_this._model.state === Model.SCENE_SKETCH) {
+                if (_this._model.id === _this._id && !_this._isPlaying) {
+                    _this.setup();
+                }
+                else if (_this._isPlaying) {
+                    _this.dispose();
+                }
             }
-            else if (_this._isPlaying) {
+            else if (_this._model.state === Model.SCENE_TOP) {
                 _this.dispose();
             }
         };
@@ -26,8 +31,9 @@ var Sketch = (function () {
     Sketch.prototype.play = function () {
         document.body.setAttribute('class', '');
         document.body.classList.add(this._type);
+        console.log(this._type);
         if (this._type === 'canvas2D') {
-            createjs.Ticker.addEventListener("tick", this.update);
+            createjs.Ticker.addEventListener('tick', this.update);
         }
         else {
             this._timer = requestAnimationFrame(this.update);
@@ -36,7 +42,7 @@ var Sketch = (function () {
     };
     Sketch.prototype.pause = function () {
         if (this._type === 'canvas2D') {
-            createjs.Ticker.removeEventListener("tick", this.update);
+            createjs.Ticker.removeEventListener('tick', this.update);
         }
         else {
             if (this._timer) {

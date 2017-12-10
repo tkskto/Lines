@@ -8,24 +8,45 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import { EventDispatcher } from "./events/EventDispatcher";
+import { EventDispatcher } from './events/EventDispatcher';
 var Model = (function (_super) {
     __extends(Model, _super);
     function Model() {
         var _this = _super.call(this) || this;
+        _this._ratio = 1;
         _this._screen = { width: 0, height: 0 };
+        _this._canvas = { width: 0, height: 0 };
         _this.setSize = function (_width, _height) {
             if (_width) {
                 _this._screen.width = _width;
+                _this._canvas.width = _width * _this._ratio * 0.8;
             }
             if (_height) {
                 _this._screen.height = _height;
+                _this._canvas.height = _this._canvas.width * (_this.screen.height / _this.screen.width);
             }
             _this.dispatchEvent(Model.ON_RESIZE_EVENT);
         };
         return _this;
     }
+    Object.defineProperty(Model.prototype, "ratio", {
+        get: function () {
+            return this._ratio;
+        },
+        set: function (value) {
+            this._ratio = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Model.prototype, "screen", {
+        get: function () {
+            return this._screen;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Model.prototype, "canvas", {
         get: function () {
             return this._screen;
         },

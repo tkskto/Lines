@@ -1,11 +1,11 @@
-import { GLConfig } from "../Config";
-import { Vector } from "../module/Vector";
+import { GLConfig } from '../Config';
+import { Vector } from '../module/Vector';
 var Methods = (function () {
     function Methods() {
     }
     Methods.showError = function (err) {
         if (err === void 0) { err = null; }
-        console.log(err || 'error');
+        console.error(err || 'error');
     };
     Methods.getRandomNumber = function (min, max) {
         return Math.random() * (max - min) + min;
@@ -148,7 +148,7 @@ var GLUtils = (function () {
                     gl.uniformMatrix2fv(_uniLocation[i], false, _values[i]);
                     break;
                 default:
-                    Methods.showError("unknown uniform types");
+                    Methods.showError('unknown uniform types');
                     break;
             }
         }
@@ -256,7 +256,8 @@ var VectorUtils = (function () {
     function VectorUtils() {
     }
     VectorUtils.getFaceNormalArr = function (_vertexArr, _indexArr) {
-        var i, len = _vertexArr.length / 3;
+        var i;
+        var len = _vertexArr.length / 3;
         var distArr = [];
         for (i = 0; i < len; i++) {
             var _index1 = _indexArr[i] * 3;

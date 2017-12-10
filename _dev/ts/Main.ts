@@ -1,15 +1,15 @@
-import {Model} from './Model';
-import {Item1} from "./sketch/01/Item";
-import {Item2} from "./sketch/02/Item2";
+import { Model } from './Model';
+import { Item1 } from './sketch/01/Item';
+import { Item2 } from './sketch/02/Item2';
 
-(function(win:Window, doc:HTMLDocument) {
+((win: Window, doc: HTMLDocument) => {
     'use strict';
-    
-    let _model:Model = Model.instance();
-    let _canvas2d:HTMLCanvasElement;
-    let _canvasGL:HTMLCanvasElement;
-    let _ratio: number = window.devicePixelRatio;
-    
+
+    const _model: Model = Model.instance();
+    let _canvas2d: HTMLCanvasElement;
+    let _canvasGL: HTMLCanvasElement;
+    _model.ratio = window.devicePixelRatio;
+
     function init () {
         _canvas2d = doc.getElementById('myCanvas2d') as HTMLCanvasElement;
         _canvasGL = doc.getElementById('myCanvasGL') as HTMLCanvasElement;
@@ -17,14 +17,14 @@ import {Item2} from "./sketch/02/Item2";
 
         createjs.Ticker.timingMode = createjs.Ticker.RAF;
 
-        let sketch:NodeList = doc.querySelectorAll('.sketch');
+        const sketch: NodeList = doc.querySelectorAll('.sketch');
 
         for (let i = 0, len = sketch.length; i < len; i++) {
-            let id = sketch[i].attributes['id'].value;
-            let type = sketch[i].attributes['data-sketch-type'].value;
-            let _canvas = type === 'canvas2D' ? _canvas2d : type === 'webGL' ? _canvasGL : null;
+            const id = sketch[i].attributes.getNamedItem('id').value;
+            const type = sketch[i].attributes['data-sketch-type'].value;
+            const _canvas = type === 'canvas2D' ? _canvas2d : type === 'webGL' ? _canvasGL : undefined;
 
-            switch(id) {
+            switch (id) {
                 case '01':
                     new Item1(_model, _canvas, id, type);
                     break;
@@ -45,31 +45,34 @@ import {Item2} from "./sketch/02/Item2";
     }
 
     function onResize() {
-        _canvas2d.width = _model.screen.width * _ratio * .8;
-        _canvas2d.height = _canvas2d.width * (_model.screen.height / _model.screen.width);
-        _canvas2d.style.width = _canvas2d.width / _ratio + 'px';
-        _canvas2d.style.height = _canvas2d.height / _ratio + 'px';
+        _canvas2d.width = _model.canvas.width;
+        _canvas2d.height = _model.canvas.height;
+        _canvas2d.style.width = _model.canvas.width / _model.ratio + 'px';
+        _canvas2d.style.height = _model.canvas.height / _model.ratio + 'px';
 
-        _canvasGL.width = _model.screen.width * _ratio * 0.8;
-        _canvasGL.height = _canvasGL.width * (_model.screen.height / _model.screen.width);
-        _canvasGL.style.width = _canvasGL.width / _ratio + 'px';
-        _canvasGL.style.height = _canvasGL.height / _ratio + 'px';
+        _canvasGL.width = _model.canvas.width;
+        _canvasGL.height = _model.canvas.height;
+        _canvasGL.style.width = _model.canvas.width / _model.ratio + 'px';
+        _canvasGL.style.height = _model.canvas.height / _model.ratio + 'px';
     }
 
     function onHashChange() {
-        let hash = location.hash;
-        if (hash) {
-            _model.id = hash.split('#')[1];
-        }
+        _model.id = location.hash.split('#')[1];
     }
-    
-    win.onload = function() {
+
+    win.onload = () => {
         _model.setSize(
             win.innerWidth,
             win.innerHeight
         );
-        
+
         init();
     };
-    
+
+    doc.addEventListener('keydown', (e) => {
+        if (27 === e.keyCode) {
+            location.hash = '';
+        }
+    });
+
 })(window, document);

@@ -1,13 +1,13 @@
-import {GLUtils} from "../utils/Utils";
+import { GLUtils } from '../utils/Utils';
 
 export class Shader {
 
-    private _vertexString:string;
-    private _fragmentString:string;
-    private _VS:WebGLShader;
-    private _FS:WebGLShader;
+    private _vertexString: string;
+    private _fragmentString: string;
+    private _VS: WebGLShader;
+    private _FS: WebGLShader;
 
-    constructor(public _gl:WebGLRenderingContext, _vs:string, _fs:string) {
+    constructor(public _gl: WebGLRenderingContext, _vs: string, _fs: string) {
         this._vertexString = _vs;
         this._fragmentString = _fs;
     }

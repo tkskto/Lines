@@ -1,4 +1,4 @@
-import { Methods } from "../utils/Utils";
+import { Methods } from '../utils/Utils';
 var WebGLContext = (function () {
     function WebGLContext(_model, _canvas) {
         var _this = this;

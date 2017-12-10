@@ -1,5 +1,5 @@
 import { MatrixUtils, Methods } from '../utils/Utils';
-import { Vector } from "./Vector";
+import { Vector } from './Vector';
 var Quaternion = (function () {
     function Quaternion(_vec, _rad) {
         if (_vec === void 0) { _vec = new Vector(); }
@@ -47,7 +47,7 @@ var Quaternion = (function () {
             var sq = axis.length;
             if (!sq) {
                 Methods.showError('回転軸がおかしいです。');
-                return null;
+                return undefined;
             }
             var x, y, z;
             if (axis instanceof Vector) {
@@ -59,12 +59,12 @@ var Quaternion = (function () {
             else if (axis instanceof Array) {
                 var len = Math.sqrt(axis[0] * axis[0] + axis[1] * axis[1] + axis[2] * axis[2]);
                 if (!len) {
-                    return null;
+                    return undefined;
                 }
                 x = axis[0];
                 y = axis[1];
                 z = axis[2];
-                if (sq != 1) {
+                if (sq !== 1) {
                     sq = 1 / sq;
                     x *= sq;
                     y *= sq;

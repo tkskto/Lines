@@ -1,4 +1,4 @@
-﻿
+
 /**
  * ディスパッチャークラス
  */
@@ -21,10 +21,9 @@ export class EventDispatcher {
             e = new Event(type);
         }
 
-        if (this.listeners[type] != null) {
+        if (this.listeners[type] !== undefined) {
             e.currentTarget = this;
-            for (let i: number = 0; i < this.listeners[type].length; i++) {
-                let listener: EventListener = this.listeners[type][i];
+            for (const listener of this.listeners[type]) {
                 try {
                     listener.handler(e);
                 } catch (error) {
@@ -42,13 +41,13 @@ export class EventDispatcher {
      * @param callback
      * @param priority
      */
-    addEventListener(type: string, callback: Function, priority: number = 0): void {
-        if (this.listeners[type] == null) {
+    addEventListener(type: string, callback: Function, priority = 0): void {
+        if (this.listeners[type] === undefined) {
             this.listeners[type] = [];
         }
 
         this.listeners[type].push(new EventListener(type, callback, priority));
-        this.listeners[type].sort(function (listener1: EventListener, listener2: EventListener) {
+        this.listeners[type].sort((listener1: EventListener, listener2: EventListener) => {
             return listener2.priority - listener1.priority;
         });
     }
@@ -60,8 +59,8 @@ export class EventDispatcher {
      */
     removeEventListener(type: string, callback: Function): void {
         if (this.hasEventListener(type, callback)) {
-            for (let i: number = 0; i < this.listeners[type].length; i++) {
-                let listener: EventListener = this.listeners[type][i];
+            for (let i = 0; i < this.listeners[type].length; i++) {
+                const listener: EventListener = this.listeners[type][i];
                 if (listener.equalCurrentListener(type, callback)) {
                     // listener.handler = null;
                     this.listeners[type].splice(i, 1);
@@ -84,21 +83,20 @@ export class EventDispatcher {
      * @returns {boolean}
      */
     containEventListener(type: string): boolean {
-        if (this.listeners[type] == null) return false;
+        if (this.listeners[type] === undefined) return false;
         return this.listeners[type].length > 0;
     }
 
     /**
      *
-     * @param type
+     * @param _type
      * @param callback
      * @returns {boolean}
      */
-    hasEventListener(type: string, callback: Function): boolean {
-        if (this.listeners[type] == null) return false;
-        for (let i: number = 0; i < this.listeners[type].length; i++) {
-            let listener: EventListener = this.listeners[type][i];
-            if (listener.equalCurrentListener(type, callback)) {
+    hasEventListener(_type: string, callback: Function): boolean {
+        if (this.listeners[_type] === undefined) return false;
+        for (const listener of this.listeners[_type]) {
+            if (listener.equalCurrentListener(_type, callback)) {
                 return true;
             }
         }
@@ -117,7 +115,7 @@ class EventListener {
      * @param handler
      * @param priority
      */
-    constructor(public type: string = '', public handler: Function, public priority: number = 0) {
+    constructor(public type = '', public handler: Function, public priority = 0) {
     }
 
     /**
@@ -127,7 +125,7 @@ class EventListener {
      * @returns {boolean}
      */
     equalCurrentListener(type: string, handler: Function): boolean {
-        return this.type == type && this.handler == handler;
+        return this.type === type && this.handler === handler;
     }
 }
 
@@ -138,7 +136,7 @@ export class Event {
 
     currentTarget: any;
 
-    constructor(public type: string = '', public value: any = null) {
+    constructor(public type = '', public value: any = undefined) {
 
     }
 }

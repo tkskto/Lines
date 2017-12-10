@@ -1,4 +1,4 @@
-import {EventDispatcher} from "./events/EventDispatcher";
+import { EventDispatcher } from './events/EventDispatcher';
 
 export class Model extends EventDispatcher {
 
@@ -16,18 +16,31 @@ export class Model extends EventDispatcher {
         return Model._instance;
     };
 
-    public static ON_RESIZE_EVENT: string = 'onResizeChanged';
-    public static ON_STATE_CHANGED: string = 'onStateChanged';
+    public static ON_RESIZE_EVENT = 'onResizeChanged';
+    public static ON_STATE_CHANGED = 'onStateChanged';
+
+    private _ratio = 1;
+
+    get ratio(): number {
+        return this._ratio;
+    }
+
+    set ratio(value: number) {
+        this._ratio = value;
+    }
 
     private _screen: { width: number, height: number } = {width: 0, height: 0};
+    private _canvas: { width: number, height: number } = {width: 0, height: 0};
 
     public setSize = (_width: number, _height: number) => {
         if (_width) {
             this._screen.width = _width;
+            this._canvas.width = _width * this._ratio * 0.8;
         }
 
         if (_height) {
             this._screen.height = _height;
+            this._canvas.height = this._canvas.width * (this.screen.height / this.screen.width);
         }
 
         this.dispatchEvent(Model.ON_RESIZE_EVENT);
@@ -37,8 +50,12 @@ export class Model extends EventDispatcher {
         return this._screen;
     }
 
-    public static SCENE_TOP: string = 'sceneTop';
-    public static SCENE_SKETCH: string = 'sceneSketch';
+    public get canvas(): { width: number, height: number } {
+        return this._screen;
+    }
+
+    public static SCENE_TOP = 'sceneTop';
+    public static SCENE_SKETCH = 'sceneSketch';
 
     private _state: string;
 

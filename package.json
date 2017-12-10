@@ -1,35 +1,39 @@
 {
-  "name": "Lines",
-  "version": "0.0.1",
-  "description": "This is something of Line.",
-  "main": "index.js",
-  "scripts": {
-    "release": "pack",
-    "pack": "webpack",
-    "dev": "webpack-dev-server --hot --inline"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tkskto/Lines.git"
-  },
-  "keywords": [],
-  "author": "takeshi kato (tkskto)",
-  "license": "Apach",
-  "bugs": {
-    "url": "https://github.com/tkskto/Lines/issues"
-  },
-  "homepage": "https://github.com/tkskto/Lines#readme",
-  "dependencies": {
-    "@types/easeljs": "^0.8.36",
-    "@types/gsap": "^1.19.1",
-    "gsap": "^1.20.3",
-    "createjs-easeljs": "^0.8.2"
-  },
-  "devDependencies": {
-    "awesome-typescript-loader": "^3.2.3",
-    "npm-run-all": "^4.1.1",
-    "source-map-loader": "^0.2.2",
-    "typescript": "^2.5.3",
-    "webpack": "^3.6.0"
-  }
+    "name": "Lines",
+    "version": "0.0.1",
+    "description": "This is something of Line.",
+    "main": "index.js",
+    "scripts": {
+        "release": "pack",
+        "pack": "webpack",
+        "dev": "webpack-dev-server --hot --inline",
+        "lint": "tslint '_dev/ts/**/*.ts' --fix"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/tkskto/Lines.git"
+    },
+    "keywords": [],
+    "author": "takeshi kato (tkskto)",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/tkskto/Lines/issues"
+    },
+    "homepage": "https://github.com/tkskto/Lines#readme",
+    "dependencies": {
+        "@types/easeljs": "^0.8.36",
+        "@types/gsap": "^1.19.1",
+        "createjs-easeljs": "^0.8.2",
+        "gsap": "^1.20.3"
+    },
+    "devDependencies": {
+        "awesome-typescript-loader": "^3.2.3",
+        "babel-eslint": "^8.0.3",
+        "npm-run-all": "^4.1.1",
+        "source-map-loader": "^0.2.2",
+        "tslint": "^5.8.0",
+        "typescript": "^2.5.3",
+        "webpack": "^3.6.0",
+        "webpack-dev-server": "^2.9.7"
+    }
 }
