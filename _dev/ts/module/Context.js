@@ -8,13 +8,8 @@ var WebGLContext = (function () {
             if (!_this._ctx) {
                 Methods.showError('Browser dose not support WebGL.');
             }
-            _this._extVAO = _this._ctx.getExtension('OES_vertex_array_object');
-            if (!_this._extVAO) {
-                alert('vertex array object not supported');
-                return;
-            }
         };
-        this._ratio = window.devicePixelRatio;
+        this._ratio = _model.ratio;
         this._canvas = _canvas;
         this.init();
     }

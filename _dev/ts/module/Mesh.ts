@@ -78,7 +78,7 @@ export class Mesh {
 
     /**
      * 移動する
-     * @param {data.Vector} _vec
+     * @param {Vector} _vec
      */
     public translate = (_vec: Vector | number[]): void => {
         const mat: Float32Array = this._mMatrix.copyWithin(0, 0);
@@ -118,7 +118,7 @@ export class Mesh {
 
     /**
      * 拡大する
-     * @param {data.Vector} _vec
+     * @param {Vector} _vec
      */
     public scale = (_vec: Vector | number[]): void => {
         const mat: Float32Array = this._mMatrix.copyWithin(0, 0);

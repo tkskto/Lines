@@ -26,16 +26,17 @@ var Item2 = (function (_super) {
         _this.setup = function () {
             _this._ctx = new WebGLContext(_this._model, _this._canvas);
             _this._gl = _this._ctx.ctx;
+            _this.clear();
             _this._shader = new Default(_this._gl);
-            _this._default = new Program(_this._ctx.ctx, _this._shader, ['position'], [3], ['mvpMatrix'], [GLConfig.UNIFORM_TYPE_MATRIX4]);
+            _this._default = new Program(_this._gl, _this._shader, ['position', 'color'], [3, 4], ['mvpMatrix'], [GLConfig.UNIFORM_TYPE_MATRIX4]);
             _this._renderer = new Renderer(_this._ctx, _this._model);
-            var line = new Geometry(_this._ctx.ctx, _this._data).init();
-            var mesh = new Mesh(_this._ctx.ctx, _this._default, line, GLConfig.DRAW_TYPE_LINE);
+            var line = new Geometry(_this._gl, _this._data);
+            var mesh = new Mesh(_this._gl, _this._default, line, GLConfig.DRAW_TYPE_LINE);
             _this._renderer.add(mesh);
             _this.play();
         };
         _this.clear = function () {
-            _this._gl.clearColor(0.0, 0.0, 0.0, 1.0);
+            _this._gl.clearColor(1.0, 1.0, 1.0, 1.0);
             _this._gl.clearDepth(1.0);
             _this._gl.clear(_this._gl.COLOR_BUFFER_BIT | _this._gl.DEPTH_BUFFER_BIT);
         };
@@ -47,10 +48,8 @@ var Item2 = (function (_super) {
         };
         _this.update = function () {
             _this.animate();
-            _this._timer = requestAnimationFrame(_this.update);
         };
         _this.animate = function () {
-            _this.clear();
             _this._renderer.update();
         };
         return _this;

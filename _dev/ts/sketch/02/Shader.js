@@ -13,15 +13,19 @@ var Default = (function (_super) {
     __extends(Default, _super);
     function Default(_gl) {
         var _this = _super.call(this, _gl, [
-            'attribute vec3  position;',
-            'uniform   mat4  mvpMatrix;',
+            'attribute vec3 position;',
+            'attribute vec4 color;',
+            'uniform   mat4 mvpMatrix;',
+            'varying   vec4 vColor;',
             'void main(void){',
+            'vColor = color;',
             'gl_Position  = mvpMatrix * vec4(position, 1.0);',
             '}'
         ].join(''), [
             'precision mediump float;',
+            'varying vec4 vColor;',
             'void main(void){',
-            'gl_FragColor = vec4(vec3(1.0), 1.0);',
+            'gl_FragColor = vColor;',
             '}'
         ].join('')) || this;
         _this.compile();

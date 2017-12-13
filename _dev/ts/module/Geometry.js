@@ -10,18 +10,21 @@ var Geometry = (function () {
             if (_this._VERTEX.length > 0) {
                 _this._vbo[0] = GLUtils.createVBO(_this._gl, _this._VERTEX);
             }
+            if (_this._COLOR.length > 0) {
+                _this._vbo[1] = GLUtils.createVBO(_this._gl, _this._COLOR);
+            }
             if (_this._NORMAL.length > 0) {
                 _this._vbo[1] = GLUtils.createVBO(_this._gl, _this._NORMAL);
             }
             if (_this._INDEX) {
                 _this._ibo = GLUtils.createIBO(_this._gl, _this._INDEX);
             }
-            return _this;
         };
         this._VERTEX = _data.vertex;
         this._INDEX = _data.index;
         this._COLOR = _data.color;
         this._NORMAL = _data.normal;
+        this.init();
     }
     Object.defineProperty(Geometry.prototype, "ibo", {
         get: function () {

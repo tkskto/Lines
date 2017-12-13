@@ -24,6 +24,10 @@ import { Item2 } from './sketch/02/Item2';
             const type = sketch[i].attributes['data-sketch-type'].value;
             const _canvas = type === 'canvas2D' ? _canvas2d : type === 'webGL' ? _canvasGL : undefined;
 
+            if (!_canvas) {
+                throw new Error('id: ' + id + 'のdata-sketch-typeが指定されていません。');
+            }
+
             switch (id) {
                 case '01':
                     new Item1(_model, _canvas, id, type);

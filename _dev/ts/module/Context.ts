@@ -9,7 +9,7 @@ export class WebGLContext {
     private _extVAO: any;
 
     constructor(private _model: Model, _canvas: HTMLCanvasElement) {
-        this._ratio = window.devicePixelRatio;
+        this._ratio = _model.ratio;
         this._canvas = _canvas;
 
         this.init();
@@ -23,11 +23,11 @@ export class WebGLContext {
         }
 
         // VAOを有効化
-        this._extVAO = this._ctx.getExtension('OES_vertex_array_object');
-        if (!this._extVAO) {
-            alert('vertex array object not supported');
-            return;
-        }
+        // this._extVAO = this._ctx.getExtension('OES_vertex_array_object');
+        // if (!this._extVAO) {
+        //     alert('vertex array object not supported');
+        //     return;
+        // }
     };
 
     get canvas(): HTMLCanvasElement {

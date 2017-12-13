@@ -15,11 +15,16 @@ export class Geometry {
         this._INDEX = _data.index;
         this._COLOR = _data.color;
         this._NORMAL = _data.normal;
+        this.init();
     }
 
-    public init = (): Geometry => {
+    public init = () => {
         if (this._VERTEX.length > 0) {
             this._vbo[0] = GLUtils.createVBO(this._gl, this._VERTEX);
+        }
+
+        if (this._COLOR.length > 0) {
+            this._vbo[1] = GLUtils.createVBO(this._gl, this._COLOR);
         }
 
         if (this._NORMAL.length > 0) {
@@ -29,8 +34,6 @@ export class Geometry {
         if (this._INDEX) {
             this._ibo = GLUtils.createIBO(this._gl, this._INDEX);
         }
-
-        return this;
     };
 
     get ibo(): WebGLBuffer {

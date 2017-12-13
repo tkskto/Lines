@@ -17,9 +17,15 @@ var Sketch = (function () {
                 _this.dispose();
             }
         };
-        this.setup = function () { };
-        this.dispose = function () { };
-        this.update = function () { };
+        this.setup = function () {
+            throw new Error('please implement sub class');
+        };
+        this.dispose = function () {
+            throw new Error('please implement sub class');
+        };
+        this.update = function () {
+            throw new Error('please implement sub class');
+        };
         _model.addEventListener(Model.ON_STATE_CHANGED, this.onStateChanged);
         this._id = _id;
         this._type = _type;
@@ -31,7 +37,6 @@ var Sketch = (function () {
     Sketch.prototype.play = function () {
         document.body.setAttribute('class', '');
         document.body.classList.add(this._type);
-        console.log(this._type);
         if (this._type === 'canvas2D') {
             createjs.Ticker.addEventListener('tick', this.update);
         }

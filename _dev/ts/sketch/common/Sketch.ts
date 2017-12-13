@@ -39,7 +39,6 @@ export class Sketch implements ISketch {
         document.body.setAttribute('class', '');
         document.body.classList.add(this._type);
 
-        console.log(this._type);
         if (this._type === 'canvas2D') {
             createjs.Ticker.addEventListener('tick', this.update);
         } else {
@@ -60,9 +59,17 @@ export class Sketch implements ISketch {
         this._isPlaying = false;
     }
 
-    public setup = ():void => {};
-    public dispose = ():void => {};
-    public update = ():void => {};
+    public setup = (): void => {
+        throw new Error('please implement sub class');
+    };
+
+    public dispose = (): void => {
+        throw new Error('please implement sub class');
+    };
+
+    public update = (): void => {
+        throw new Error('please implement sub class');
+    };
 
     get type(): string {
         return this._type;

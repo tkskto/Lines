@@ -5,7 +5,7 @@ export class Text extends createjs.Container {
     }
 
     private init = () => {
-        const text: createjs.Text = new createjs.Text('WORKS', '240px "roboto"', '#ffffff');
+        const text: createjs.Text = new createjs.Text('LINES', '240px "roboto"', '#ffffff');
         text.textAlign = 'center';
         text.textBaseline = 'middle';
         text.x = this._width * .5;
