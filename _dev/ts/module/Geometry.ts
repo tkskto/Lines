@@ -15,25 +15,35 @@ export class Geometry {
         this._INDEX = _data.index;
         this._COLOR = _data.color;
         this._NORMAL = _data.normal;
-        this.init();
     }
 
-    public init = () => {
+    public init = (...data): Geometry => {
+        let index = 0;
         if (this._VERTEX.length > 0) {
-            this._vbo[0] = GLUtils.createVBO(this._gl, this._VERTEX);
+            this._vbo[index] = GLUtils.createVBO(this._gl, this._VERTEX);
+            index++;
         }
 
         if (this._COLOR.length > 0) {
-            this._vbo[1] = GLUtils.createVBO(this._gl, this._COLOR);
+            this._vbo[index] = GLUtils.createVBO(this._gl, this._COLOR);
+            index++;
         }
 
         if (this._NORMAL.length > 0) {
-            this._vbo[1] = GLUtils.createVBO(this._gl, this._NORMAL);
+            this._vbo[index] = GLUtils.createVBO(this._gl, this._NORMAL);
+            index++;
+        }
+
+        for (let i = 0, len = data.length; i < len; i++) {
+            this._vbo[index] = GLUtils.createVBO(this._gl, data[i]);
+            index++;
         }
 
         if (this._INDEX) {
             this._ibo = GLUtils.createIBO(this._gl, this._INDEX);
         }
+
+        return this;
     };
 
     get ibo(): WebGLBuffer {

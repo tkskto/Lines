@@ -7,24 +7,36 @@ var Geometry = (function () {
         this._gl = _gl;
         this._vbo = [];
         this.init = function () {
+            var data = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                data[_i] = arguments[_i];
+            }
+            var index = 0;
             if (_this._VERTEX.length > 0) {
-                _this._vbo[0] = GLUtils.createVBO(_this._gl, _this._VERTEX);
+                _this._vbo[index] = GLUtils.createVBO(_this._gl, _this._VERTEX);
+                index++;
             }
             if (_this._COLOR.length > 0) {
-                _this._vbo[1] = GLUtils.createVBO(_this._gl, _this._COLOR);
+                _this._vbo[index] = GLUtils.createVBO(_this._gl, _this._COLOR);
+                index++;
             }
             if (_this._NORMAL.length > 0) {
-                _this._vbo[1] = GLUtils.createVBO(_this._gl, _this._NORMAL);
+                _this._vbo[index] = GLUtils.createVBO(_this._gl, _this._NORMAL);
+                index++;
+            }
+            for (var i = 0, len = data.length; i < len; i++) {
+                _this._vbo[index] = GLUtils.createVBO(_this._gl, data[i]);
+                index++;
             }
             if (_this._INDEX) {
                 _this._ibo = GLUtils.createIBO(_this._gl, _this._INDEX);
             }
+            return _this;
         };
         this._VERTEX = _data.vertex;
         this._INDEX = _data.index;
         this._COLOR = _data.color;
         this._NORMAL = _data.normal;
-        this.init();
     }
     Object.defineProperty(Geometry.prototype, "ibo", {
         get: function () {

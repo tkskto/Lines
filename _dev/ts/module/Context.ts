@@ -16,10 +16,10 @@ export class WebGLContext {
     }
 
     private init = () => {
-        this._ctx = this._canvas.getContext('webgl');
+        this._ctx = this._canvas.getContext('webgl2') as WebGLRenderingContext;
 
         if (!this._ctx) {
-            Methods.showError('Browser dose not support WebGL.');
+            Methods.showError('Browser dose not support WebGL2.');
         }
 
         // VAOを有効化

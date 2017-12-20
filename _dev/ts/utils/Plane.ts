@@ -1,59 +1,61 @@
-export class Plane {
+import {IData} from '../sketch/common/IData';
 
-    private _VERTEX: number[] = [];
-    private _NORMAL: number[] = [];
-    private _COLOR: number[] = [];
-    private _UV: number[] = [];
-    private _INDEX: number[] = [];
+export class Plane implements IData {
+
+    _vertex: number[] = [];
+    _normal: number[] = [];
+    _color: number[] = [];
+    _uv: number[] = [];
+    _index: number[] = [];
 
     constructor () {
-        this._VERTEX = [
+        this._vertex = [
             -1.0, 1.0, 0.0,
             1.0, 1.0, 0.0,
             -1.0, -1.0, 0.0,
             1.0, -1.0, 0.0
         ];
 
-        this._COLOR = [
+        this._color = [
             1.0, 1.0, 1.0, 1.0,
             1.0, 1.0, 1.0, 1.0,
             1.0, 1.0, 1.0, 1.0,
             1.0, 1.0, 1.0, 1.0
         ];
 
-        this._NORMAL = [
+        this._normal = [
             0.0, 1.0, 0.0,
             0.0, 1.0, 0.0,
             0.0, 1.0, 0.0,
             0.0, 1.0, 0.0
         ];
 
-        this._UV = [
+        this._uv = [
             0.0, 1.0,
             1.0, 1.0,
             0.0, 0.0,
             1.0, 0.0
         ];
 
-        this._INDEX = [
+        this._index = [
             0, 1, 2,
             3, 2, 1
         ];
     }
 
-    get VERTEX(): number[] {
-        return this._VERTEX;
+    get vertex(): number[] {
+        return this._vertex;
     }
-    get NORMAL(): number[] {
-        return this._NORMAL;
+    get normal(): number[] {
+        return this._normal;
     }
-    get COLOR(): number[] {
-        return this._COLOR;
+    get color(): number[] {
+        return this._color;
     }
-    get UV(): number[] {
-        return this._UV;
+    get uv(): number[] {
+        return this._uv;
     }
-    get INDEX(): number[] {
-        return this._INDEX;
+    get index(): number[] {
+        return this._index;
     }
 }

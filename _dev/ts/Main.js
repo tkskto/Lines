@@ -1,6 +1,9 @@
 import { Model } from './Model';
 import { Item1 } from './sketch/01/Item';
 import { Item2 } from './sketch/02/Item2';
+import { Item3 } from "./sketch/03/Item3";
+import { Item4 } from './sketch/04/Item4';
+import { AppConfig } from './Config';
 (function (win, doc) {
     'use strict';
     var _model = Model.instance();
@@ -16,7 +19,7 @@ import { Item2 } from './sketch/02/Item2';
         for (var i = 0, len = sketch.length; i < len; i++) {
             var id = sketch[i].attributes.getNamedItem('id').value;
             var type = sketch[i].attributes['data-sketch-type'].value;
-            var _canvas = type === 'canvas2D' ? _canvas2d : type === 'webGL' ? _canvasGL : undefined;
+            var _canvas = type === AppConfig.NAME_TYPE_CANVAS2D ? _canvas2d : type === AppConfig.NAME_TYPE_WEBGL ? _canvasGL : undefined;
             if (!_canvas) {
                 throw new Error('id: ' + id + 'のdata-sketch-typeが指定されていません。');
             }
@@ -28,7 +31,10 @@ import { Item2 } from './sketch/02/Item2';
                     new Item2(_model, _canvas, id, type);
                     break;
                 case '03':
-                    new Item1(_model, _canvas, id, type);
+                    new Item3(_model, _canvas, id, type);
+                    break;
+                case '04':
+                    new Item4(_model, _canvas, id, type);
                     break;
                 default:
                     throw new Error('please set id and data attribute "sketch-type"');

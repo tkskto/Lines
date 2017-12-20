@@ -4,9 +4,9 @@ var WebGLContext = (function () {
         var _this = this;
         this._model = _model;
         this.init = function () {
-            _this._ctx = _this._canvas.getContext('webgl');
+            _this._ctx = _this._canvas.getContext('webgl2');
             if (!_this._ctx) {
-                Methods.showError('Browser dose not support WebGL.');
+                Methods.showError('Browser dose not support WebGL2.');
             }
         };
         this._ratio = _model.ratio;

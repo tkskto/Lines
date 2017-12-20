@@ -1,70 +1,70 @@
 var Plane = (function () {
     function Plane() {
-        this._VERTEX = [];
-        this._NORMAL = [];
-        this._COLOR = [];
-        this._UV = [];
-        this._INDEX = [];
-        this._VERTEX = [
+        this._vertex = [];
+        this._normal = [];
+        this._color = [];
+        this._uv = [];
+        this._index = [];
+        this._vertex = [
             -1.0, 1.0, 0.0,
             1.0, 1.0, 0.0,
             -1.0, -1.0, 0.0,
             1.0, -1.0, 0.0
         ];
-        this._COLOR = [
+        this._color = [
             1.0, 1.0, 1.0, 1.0,
             1.0, 1.0, 1.0, 1.0,
             1.0, 1.0, 1.0, 1.0,
             1.0, 1.0, 1.0, 1.0
         ];
-        this._NORMAL = [
+        this._normal = [
             0.0, 1.0, 0.0,
             0.0, 1.0, 0.0,
             0.0, 1.0, 0.0,
             0.0, 1.0, 0.0
         ];
-        this._UV = [
+        this._uv = [
             0.0, 1.0,
             1.0, 1.0,
             0.0, 0.0,
             1.0, 0.0
         ];
-        this._INDEX = [
+        this._index = [
             0, 1, 2,
             3, 2, 1
         ];
     }
-    Object.defineProperty(Plane.prototype, "VERTEX", {
+    Object.defineProperty(Plane.prototype, "vertex", {
         get: function () {
-            return this._VERTEX;
+            return this._vertex;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Plane.prototype, "NORMAL", {
+    Object.defineProperty(Plane.prototype, "normal", {
         get: function () {
-            return this._NORMAL;
+            return this._normal;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Plane.prototype, "COLOR", {
+    Object.defineProperty(Plane.prototype, "color", {
         get: function () {
-            return this._COLOR;
+            return this._color;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Plane.prototype, "UV", {
+    Object.defineProperty(Plane.prototype, "uv", {
         get: function () {
-            return this._UV;
+            return this._uv;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Plane.prototype, "INDEX", {
+    Object.defineProperty(Plane.prototype, "index", {
         get: function () {
-            return this._INDEX;
+            return this._index;
         },
         enumerable: true,
         configurable: true

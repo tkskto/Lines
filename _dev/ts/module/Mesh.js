@@ -51,6 +51,17 @@ var Mesh = (function () {
                     break;
             }
         };
+        this.setDrawMethod = function () {
+            if (_this._geometry.INDEX.length === 0) {
+                _this._drawMethod = _this.drawArrays;
+            }
+            else {
+                _this._drawMethod = _this.drawElements;
+            }
+        };
+        this.draw = function () {
+            _this._drawMethod();
+        };
         this.drawElements = function () {
             _this._gl.drawElements(_this._drawType, _this._geometry.INDEX.length, _this._gl.UNSIGNED_SHORT, 0);
         };
@@ -186,6 +197,7 @@ var Mesh = (function () {
         };
         this._mMatrix = MatrixUtils.initialize(MatrixUtils.create());
         this.setDrawType(_drawType);
+        this.setDrawMethod();
     }
     Object.defineProperty(Mesh.prototype, "mMatrix", {
         get: function () {

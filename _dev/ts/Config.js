@@ -1,6 +1,8 @@
 var AppConfig = (function () {
     function AppConfig() {
     }
+    AppConfig.NAME_TYPE_CANVAS2D = 'canvas2D';
+    AppConfig.NAME_TYPE_WEBGL = 'webGL';
     return AppConfig;
 }());
 export { AppConfig };

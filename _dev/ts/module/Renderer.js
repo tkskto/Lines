@@ -6,8 +6,6 @@ var Renderer = (function () {
         var _this = this;
         this._ctx = _ctx;
         this._model = _model;
-        this.PI = Math.PI;
-        this._ratio = window.devicePixelRatio;
         this._target = [];
         this.add = function (_model) {
             _this._target.push(_model);
@@ -20,28 +18,36 @@ var Renderer = (function () {
             }
         };
         this.dispose = function () {
+            _this._target.length = 0;
         };
-        this._count = 0;
         this.update = function () {
-            _this.render();
+            var values = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                values[_i] = arguments[_i];
+            }
+            _this.render(values);
         };
         this.render = function () {
+            var values = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                values[_i] = arguments[_i];
+            }
             _this.mvpMatrix = MatrixUtils.initialize(MatrixUtils.create());
-            for (var _i = 0, _a = _this._target; _i < _a.length; _i++) {
-                var target = _a[_i];
+            for (var _a = 0, _b = _this._target; _a < _b.length; _a++) {
+                var target = _b[_a];
                 MatrixUtils.multiply(_this.vpMatrix, target.mMatrix, _this.mvpMatrix);
-                target.ready([_this.mvpMatrix]);
-                target.drawArrays();
+                target.ready((_c = [_this.mvpMatrix]).concat.apply(_c, values));
+                target.draw();
             }
             _this._gl.flush();
+            var _c;
         };
         this.initializeMatrix = function () {
             _this.vMatrix = MatrixUtils.initialize(MatrixUtils.create());
             _this.pMatrix = MatrixUtils.initialize(MatrixUtils.create());
             _this.qMatrix = MatrixUtils.initialize(MatrixUtils.create());
             _this.vpMatrix = MatrixUtils.initialize(MatrixUtils.create());
-            var camPosition = new Vector(0.0, 0.0, 0.0);
-            MatrixUtils.lookAt(new Vector(0.0, 0.0, 10.0), camPosition, new Vector(0, 1, 0), _this.vMatrix);
+            MatrixUtils.lookAt(_this._model.camPosition, new Vector(0.0, 0.0, 0.0), new Vector(0, 1, 0), _this.vMatrix);
             MatrixUtils.perspective(60, _this._model.canvas.width / _this._model.canvas.height, 0.1, 100, _this.pMatrix);
             MatrixUtils.multiply(_this.pMatrix, _this.vMatrix, _this.vpMatrix);
         };
@@ -56,8 +62,9 @@ var Renderer = (function () {
         this._gl = _ctx.ctx;
         this._gl.enable(this._gl.DEPTH_TEST);
         this._gl.depthFunc(this._gl.LEQUAL);
-        this.initializeMatrix();
         this._model.addEventListener(Model.ON_RESIZE_EVENT, this.onResize);
+        this._model.addEventListener(Model.ON_CAMERA_STATE_CHANGED, this.initializeMatrix);
+        this.initializeMatrix();
     }
     return Renderer;
 }());

@@ -18,7 +18,7 @@ var Methods = (function () {
         saturation = saturation / 100;
         value = value / 100;
         if (saturation === 0) {
-            color.push(value, value, value, alpha);
+            color.push(value, value, value, alpha / 100);
         }
         else {
             var th = hue % 360;
@@ -30,7 +30,7 @@ var Methods = (function () {
             var r = [value, n, m, m, k, value];
             var g = [k, value, value, n, m, m];
             var b = [m, m, k, value, value, n];
-            color.push(r[i], g[i], b[i], alpha);
+            color.push(r[i], g[i], b[i], alpha / 100);
         }
         return color;
     };

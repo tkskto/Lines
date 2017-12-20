@@ -15,11 +15,13 @@ export class Mesh {
     private _mMatrix: Float32Array;
     private _position: { x: number, y: number, z: number } = {x: 0, y: 0, z: 0};
     private _drawType: number;
+    private _drawMethod: Function;
 
     constructor(private _gl: WebGLRenderingContext, private _prg: Program, private _geometry: Geometry, _drawType: string = GLConfig.DRAW_TYPE_TRIANGLE) {
         this._mMatrix = MatrixUtils.initialize(MatrixUtils.create());
 
         this.setDrawType(_drawType);
+        this.setDrawMethod();
     }
 
     public reset = () => {
@@ -68,11 +70,23 @@ export class Mesh {
         }
     };
 
-    public drawElements = () => {
+    private setDrawMethod = () => {
+        if (this._geometry.INDEX.length === 0) {
+            this._drawMethod = this.drawArrays;
+        } else {
+            this._drawMethod = this.drawElements;
+        }
+    };
+
+    public draw = () => {
+        this._drawMethod();
+    };
+
+    private drawElements = () => {
         this._gl.drawElements(this._drawType, this._geometry.INDEX.length, this._gl.UNSIGNED_SHORT, 0);
     };
 
-    public drawArrays = () => {
+    private drawArrays = () => {
         this._gl.drawArrays(this._drawType, 0, this._geometry.VERTEX.length / 3);
     };
 

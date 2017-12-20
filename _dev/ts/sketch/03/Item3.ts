@@ -1,7 +1,6 @@
 import { Sketch } from '../common/Sketch';
 import { Model } from '../../Model';
 import { Default } from './Shader';
-import { GLUtils } from '../../utils/Utils';
 import { WebGLContext } from '../../module/Context';
 import { Data } from './Data';
 import { Renderer } from '../../module/Renderer';
@@ -9,16 +8,17 @@ import { Geometry } from '../../module/Geometry';
 import { Mesh } from '../../module/Mesh';
 import { Program } from '../../module/Program';
 import { GLConfig } from '../../Config';
-import { Vector } from '../../module/Vector';
 
-export class Item2 extends Sketch {
+export class Item3 extends Sketch {
 
-    private _data: Data = new Data();
+    private _data: Data = new Data(32, 32, 5, [1, 0, 0, 1]);
     private _ctx: WebGLContext;
     private _gl: WebGLRenderingContext;
     private _shader: Default;
     private _default: Program;
     private _renderer: Renderer;
+    private _mesh: Mesh;
+    private _count = 0;
 
     constructor(_model: Model, private _canvas: HTMLCanvasElement, _id: string, _type: string) {
         super(_model, _id, _type);
@@ -29,12 +29,15 @@ export class Item2 extends Sketch {
         this._gl = this._ctx.ctx;
         this.clear();
         this._shader = new Default(this._gl);
-        this._default = new Program(this._gl, this._shader, ['position', 'color'], [3, 4], ['mvpMatrix'], [GLConfig.UNIFORM_TYPE_MATRIX4]);
+        this._default = new Program(this._gl, this._shader,
+            ['position', 'color', 'normal'], [3, 4, 3],
+            ['mvpMatrix', 'time'], [GLConfig.UNIFORM_TYPE_MATRIX4, GLConfig.UNIFORM_TYPE_FLOAT]
+        );
         this._renderer = new Renderer(this._ctx, this._model);
 
-        const line: Geometry = new Geometry(this._gl, this._data).init();
-        const mesh: Mesh = new Mesh(this._gl, this._default, line, GLConfig.DRAW_TYPE_LINE);
-        this._renderer.add(mesh);
+        const line = new Geometry(this._gl, this._data).init();
+        this._mesh = new Mesh(this._gl, this._default, line, GLConfig.DRAW_TYPE_LINE);
+        this._renderer.add(this._mesh);
 
         this.play();
     };
@@ -55,11 +58,14 @@ export class Item2 extends Sketch {
 
     public update = () => {
         this.animate();
-        // this._timer = requestAnimationFrame(this.update);
+        this._count += 0.0001;
+        this._timer = requestAnimationFrame(this.update);
     };
 
     public animate = () => {
-        // this.clear();
-        this._renderer.update();
+        this.clear();
+
+        this._mesh.rotate(this._count, [0, 1.0, 0]);
+        this._renderer.update(this._count);
     };
 }

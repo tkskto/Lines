@@ -35,8 +35,7 @@ export class Methods {
         value = value / 100;
 
         if (saturation === 0) {
-            color.push(value, value, value, alpha);
-
+            color.push(value, value, value, alpha / 100);
         } else {
             const th = hue % 360;
             const i = Math.floor(th / 60);
@@ -47,7 +46,7 @@ export class Methods {
             const r = [value, n, m, m, k, value];
             const g = [k, value, value, n, m, m];
             const b = [m, m, k, value, value, n];
-            color.push(r[i], g[i], b[i], alpha);
+            color.push(r[i], g[i], b[i], alpha / 100);
         }
 
         return color;

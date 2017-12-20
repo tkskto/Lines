@@ -1,4 +1,6 @@
 export class AppConfig {
+    public static NAME_TYPE_CANVAS2D = 'canvas2D';
+    public static NAME_TYPE_WEBGL = 'webGL';
 }
 
 export class GLConfig {

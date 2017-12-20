@@ -1,5 +1,6 @@
 import { ISketch } from './ISketch';
 import { Model } from '../../Model';
+import {AppConfig} from '../../Config';
 
 
 /**
@@ -39,18 +40,18 @@ export class Sketch implements ISketch {
         document.body.setAttribute('class', '');
         document.body.classList.add(this._type);
 
-        if (this._type === 'canvas2D') {
+        if (this._type === AppConfig.NAME_TYPE_CANVAS2D) {
             createjs.Ticker.addEventListener('tick', this.update);
-        } else {
+        } else if (this._type === AppConfig.NAME_TYPE_WEBGL) {
             this._timer = requestAnimationFrame(this.update);
         }
         this._isPlaying = true;
     }
 
     pause(): void {
-        if (this._type === 'canvas2D') {
+        if (this._type === AppConfig.NAME_TYPE_CANVAS2D) {
             createjs.Ticker.removeEventListener('tick', this.update);
-        } else {
+        } else if (this._type === AppConfig.NAME_TYPE_WEBGL) {
             if (this._timer) {
                 cancelAnimationFrame(this._timer);
                 this._timer = 0;

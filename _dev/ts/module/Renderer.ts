@@ -6,19 +6,11 @@ import { Mesh } from './Mesh';
 
 export class Renderer {
 
-    private PI: number = Math.PI;
-    private _ratio: number = window.devicePixelRatio;
-    private _scene: string;
-
     private _gl: WebGLRenderingContext;
-    private _timer: number;
     private _target: Mesh[] = [];
 
-    private _wh: number;
     private _cWidth: number;
     private _cHeight: number;
-    private _canvasPosX: number;
-    private _canvasPosY: number;
 
     private vMatrix: Float32Array;
     private pMatrix: Float32Array;
@@ -34,8 +26,9 @@ export class Renderer {
         this._gl.enable(this._gl.DEPTH_TEST);
         this._gl.depthFunc(this._gl.LEQUAL);
 
-        this.initializeMatrix();
         this._model.addEventListener(Model.ON_RESIZE_EVENT, this.onResize);
+        this._model.addEventListener(Model.ON_CAMERA_STATE_CHANGED, this.initializeMatrix);
+        this.initializeMatrix();
     }
 
     /**
@@ -62,23 +55,19 @@ export class Renderer {
      * すべてのリソースを削除する
      */
     public dispose = () => {
-        // TODO: https://github.com/mrdoob/three.js/blob/dev/src/renderers/WebGLRenderer.js#L507
+        this._target.length = 0;
     };
 
-    private _count = 0;
-
-    public update = () => {
-        this.render();
+    public update = (...values: any[]) => {
+        this.render(values);
     };
 
-    private render = () => {
+    private render = (...values: any[]) => {
         this.mvpMatrix = MatrixUtils.initialize(MatrixUtils.create());
-
         for (const target of this._target) {
-            // this._target[i].setQuaternion(this.qMatrix);
             MatrixUtils.multiply(this.vpMatrix, target.mMatrix, this.mvpMatrix);
-            target.ready([this.mvpMatrix]);
-            target.drawArrays();
+            target.ready([this.mvpMatrix].concat(...values));
+            target.draw();
         }
 
         this._gl.flush();
@@ -91,8 +80,7 @@ export class Renderer {
         this.vpMatrix = MatrixUtils.initialize(MatrixUtils.create());
 
         // ビュー座標変換行列
-        const camPosition = new Vector(0.0, 0.0, 0.0);
-        MatrixUtils.lookAt(new Vector(0.0, 0.0, 10.0), camPosition, new Vector(0, 1, 0), this.vMatrix);
+        MatrixUtils.lookAt(this._model.camPosition, new Vector(0.0, 0.0, 0.0), new Vector(0, 1, 0), this.vMatrix);
         MatrixUtils.perspective(60, this._model.canvas.width / this._model.canvas.height, 0.1, 100, this.pMatrix);
         MatrixUtils.multiply(this.pMatrix, this.vMatrix, this.vpMatrix);
     };

@@ -1,4 +1,5 @@
 import { EventDispatcher } from './events/EventDispatcher';
+import {Vector} from './module/Vector';
 
 export class Model extends EventDispatcher {
 
@@ -18,6 +19,7 @@ export class Model extends EventDispatcher {
 
     public static ON_RESIZE_EVENT = 'onResizeChanged';
     public static ON_STATE_CHANGED = 'onStateChanged';
+    public static ON_CAMERA_STATE_CHANGED = 'onCameraStateChanged';
 
     private _ratio = 1;
 
@@ -81,5 +83,16 @@ export class Model extends EventDispatcher {
         } else {
             this.state = Model.SCENE_TOP;
         }
+    }
+
+    private _camPosition: Vector = new Vector(0.0, 0.0, 10.0);
+
+    get camPosition(): Vector {
+        return this._camPosition;
+    }
+
+    set camPosition(value: Vector) {
+        this._camPosition = value;
+        this.dispatchEvent(Model.ON_CAMERA_STATE_CHANGED);
     }
 }
