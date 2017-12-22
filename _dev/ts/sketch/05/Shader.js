@@ -12,7 +12,7 @@ import { Shader } from '../../module/Shader';
 var Default = (function (_super) {
     __extends(Default, _super);
     function Default(_gl) {
-        var _this = _super.call(this, _gl, "#version 300 es\n            in vec3 position;\n            in float vertId;\n            uniform float time;\n            uniform mat4 mvpMatrix;\n            void main(void){\n                vec3 pos = position;\n                if(mod(vertId, 2.0) == 0.0){\n                    pos.y += time;\n                }\n                gl_Position = mvpMatrix * vec4(pos, 1.0);\n            }", "#version 300 es\n            precision highp float;\n            out vec4 outColor;\n            void main(void){\n                outColor = vec4(vec3(1.0, 0.0, 0.0), 1.0);\n            }") || this;
+        var _this = _super.call(this, _gl, "#version 300 es\n            layout (location = 0) in vec3 position;\n            layout (location = 1) in vec4 color;\n            layout (location = 2) in float vertId;\n            uniform float time;\n            uniform mat4 mvpMatrix;\n            out vec4 vColor;\n            void main(void){\n                vec3 pos = position;\n                vColor = color;\n                if(mod(vertId, 2.0) == 0.0){\n                    pos.y += time;\n                }\n                gl_Position = mvpMatrix * vec4(pos, 1.0);\n            }", "#version 300 es\n            precision highp float;\n            in vec4 vColor;\n            out vec4 outColor;\n            void main(void){\n                outColor = vColor;\n            }") || this;
         _this.compile();
         return _this;
     }

@@ -17,12 +17,12 @@ export class Methods {
     }
 
     /**
-     * hsvをRGBに変換する
+     * hsvをRGBAに変換する
      * @param {number} hue 0 - 360
      * @param {number} saturation 0 - 100
      * @param {number} value 0 - 100
      * @param {number} alpha 0 - 100
-     * @returns {Array}
+     * @returns {Array} 0 = R, 1 = G, 2 = B, 3 = alpha
      */
     public static hsv2RGB(hue: number, saturation: number, value: number, alpha: number): number[] {
         if (saturation > 100 || value > 100 || alpha > 100) {

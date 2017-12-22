@@ -31,7 +31,7 @@ export class Item5 extends Sketch {
         this.clear();
         this._shader = new Default(this._gl);
         this._default = new Program(this._gl, this._shader,
-            ['position', 'vertId'], [3, 1],
+            ['position', 'color', 'vertId'], [3, 4, 1],
             ['mvpMatrix', 'time'], [GLConfig.UNIFORM_TYPE_MATRIX4, GLConfig.UNIFORM_TYPE_FLOAT]
         );
         this._renderer = new Renderer(this._ctx, this._model);
@@ -39,7 +39,7 @@ export class Item5 extends Sketch {
         this._data = new Data(this._model.camPosition.z, this._model.screen.height / this._model.screen.width * this._model.camPosition.z, 15);
 
         const line = new Geometry(this._gl, this._data).init(this._data.vertID);
-        this._mesh = new Mesh(this._gl, this._default, line, GLConfig.DRAW_TYPE_LINE);
+        this._mesh = new Mesh(this._gl, this._default, line, GLConfig.DRAW_TYPE_TRIANGLE);
         this._renderer.add(this._mesh);
 
         this.play();

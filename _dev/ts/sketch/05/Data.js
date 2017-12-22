@@ -1,3 +1,4 @@
+import { Methods } from '../../utils/Utils';
 var Data = (function () {
     function Data(_width, _height, _num) {
         this._vertex = [];
@@ -7,11 +8,17 @@ var Data = (function () {
         this._normal = [];
         this._uv = [];
         var maxHeight = _height * 0.5;
-        var lineWidth = 90;
         for (var i = 0; i < _num; i++) {
-            var x = _width - 1 + i * 2.0;
+            var x = _width * -0.5 + (i * 2.0);
             var y = maxHeight;
-            this._index.push(i + 1, i + 2, i + 3, i + 1, i + 3, i + 4);
+            var color = Methods.hsv2RGB(360 / _num * i, 100, 100, 100);
+            this._color.push(color[0], color[1], color[2], color[3]);
+            this._color.push(color[0], color[1], color[2], color[3]);
+            this._color.push(color[0], color[1], color[2], color[3]);
+            this._color.push(color[0], color[1], color[2], color[3]);
+            this._vertex.push(x, y, 0, x, y, 0, x + 0.5, y, 0, x + 0.5, y, 0);
+            this._vertID.push(i + 1, i + 2, i + 3, i + 1, i + 3, i + 4);
+            this._index.push(1 + i * 4, 2 + i * 4, 3 + i * 4, 1 + i * 4, 3 + i * 4, 4 + i * 4);
         }
     }
     Object.defineProperty(Data.prototype, "vertex", {
