@@ -13,7 +13,8 @@ export class Default extends Shader {
             void main(void){
                 vec3 pos = position;
                 vColor = color;
-                if(mod(vertId, 2.0) == 0.0){
+                float move = mod(vertId, 4.0);
+                if(move == 2.0 || move == 3.0){
                     pos.y += time;
                 }
                 gl_Position = mvpMatrix * vec4(pos, 1.0);

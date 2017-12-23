@@ -12,19 +12,20 @@ export class Data implements IData {
     constructor(_width: number, _height: number, _num: number) {
 
         const maxHeight = _height * 0.5;
+        const offset = _width / _num;
 
         for (let i = 0; i < _num; i++) {
-            const x = _width * - 0.5 + (i * 2.0);
-            const y = maxHeight;
+            const x = _width * - 0.5 + (i * 1.4);
+            const y = -maxHeight;
             const color = Methods.hsv2RGB(360 / _num * i, 100 , 100, 100);
             this._color.push(color[0], color[1], color[2], color[3]);
             this._color.push(color[0], color[1], color[2], color[3]);
             this._color.push(color[0], color[1], color[2], color[3]);
             this._color.push(color[0], color[1], color[2], color[3]);
 
-            this._vertex.push(x, y, 0, x, y, 0, x + 0.5, y, 0, x + 0.5, y, 0);
-            this._vertID.push(i + 1, i + 2, i + 3, i + 1, i + 3, i + 4);
-            this._index.push(1 + i * 4, 2 +  i * 4, 3 +  i * 4, 1 +  i * 4, 3 +  i * 4, 4 + i * 4);
+            this._vertex.push(x, y, 0.0, x, y, 0.0, x + 0.5, y, 0.0, x + 0.5, y, 0.0);
+            this._vertID.push(1 + i * 4, 2 +  i * 4, 3 +  i * 4, 4 +  i * 4);
+            this._index.push(i * 4, 1 +  i * 4, 2 +  i * 4, i * 4, 2 +  i * 4, 3 + i * 4);
         }
     }
 

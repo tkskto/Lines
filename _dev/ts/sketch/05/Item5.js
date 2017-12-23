@@ -31,7 +31,7 @@ var Item5 = (function (_super) {
             _this._shader = new Default(_this._gl);
             _this._default = new Program(_this._gl, _this._shader, ['position', 'color', 'vertId'], [3, 4, 1], ['mvpMatrix', 'time'], [GLConfig.UNIFORM_TYPE_MATRIX4, GLConfig.UNIFORM_TYPE_FLOAT]);
             _this._renderer = new Renderer(_this._ctx, _this._model);
-            _this._data = new Data(_this._model.camPosition.z, _this._model.screen.height / _this._model.screen.width * _this._model.camPosition.z, 15);
+            _this._data = new Data(_this._model.camPosition.z * 2.0, _this._model.screen.height / _this._model.screen.width * _this._model.camPosition.z * 2.0, 15);
             var line = new Geometry(_this._gl, _this._data).init(_this._data.vertID);
             _this._mesh = new Mesh(_this._gl, _this._default, line, GLConfig.DRAW_TYPE_TRIANGLE);
             _this._renderer.add(_this._mesh);
