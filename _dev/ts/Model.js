@@ -20,7 +20,7 @@ var Model = (function (_super) {
         _this.setSize = function (_width, _height) {
             if (_width) {
                 _this._screen.width = _width;
-                _this._canvas.width = _width * _this._ratio * 0.8;
+                _this._canvas.width = _width * _this._ratio;
             }
             if (_height) {
                 _this._screen.height = _height;
@@ -28,7 +28,7 @@ var Model = (function (_super) {
             }
             _this.dispatchEvent(Model.ON_RESIZE_EVENT);
         };
-        _this._camPosition = new Vector(0.0, 0.0, 10.0);
+        _this._camPosition = new Vector(0.0, 0.0, 0.5);
         return _this;
     }
     Object.defineProperty(Model.prototype, "ratio", {
@@ -50,7 +50,7 @@ var Model = (function (_super) {
     });
     Object.defineProperty(Model.prototype, "canvas", {
         get: function () {
-            return this._screen;
+            return this._canvas;
         },
         enumerable: true,
         configurable: true
@@ -93,6 +93,17 @@ var Model = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Model.prototype, "quote", {
+        get: function () {
+            return this._quote;
+        },
+        set: function (value) {
+            this._quote = value;
+            this.dispatchEvent(Model.ON_CHANGE_QUOTE_TEXT);
+        },
+        enumerable: true,
+        configurable: true
+    });
     Model.instance = function () {
         if (!Model._instance) {
             Model._instance = new Model();
@@ -102,6 +113,7 @@ var Model = (function (_super) {
     Model.ON_RESIZE_EVENT = 'onResizeChanged';
     Model.ON_STATE_CHANGED = 'onStateChanged';
     Model.ON_CAMERA_STATE_CHANGED = 'onCameraStateChanged';
+    Model.ON_CHANGE_QUOTE_TEXT = 'onChangeQuoteText';
     Model.SCENE_TOP = 'sceneTop';
     Model.SCENE_SKETCH = 'sceneSketch';
     return Model;

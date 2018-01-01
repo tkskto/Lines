@@ -9,20 +9,23 @@ import {AppConfig} from '../../Config';
 export class Sketch implements ISketch {
 
     private _isPlaying = false;
+    private _quote: string;
     public _timer: number;
-    _id: string;
-    _type: string;
+    public _id: string;
+    public _type: string;
 
-    constructor(public _model: Model, _id: string, _type: string) {
+    constructor(public _model: Model, _id: string, _type: string, _quote: string = null) {
         _model.addEventListener(Model.ON_STATE_CHANGED, this.onStateChanged);
         this._id = _id;
         this._type = _type;
+        this._quote = _quote;
     }
 
     private onStateChanged = () => {
         if (this._model.state === Model.SCENE_SKETCH) {
             if (this._model.id === this._id && !this._isPlaying) {
                 this.setup();
+                this._model.quote = this._quote;
             } else if (this._isPlaying) {
                 this.dispose();
             }
@@ -78,5 +81,9 @@ export class Sketch implements ISketch {
 
     get timer(): number {
         return this._timer;
+    }
+
+    get quote(): string {
+        return this._quote;
     }
 }

@@ -69,7 +69,6 @@ export class Renderer {
             target.ready([this.mvpMatrix].concat(...values));
             target.draw();
         }
-
         this._gl.flush();
     };
 
@@ -81,7 +80,7 @@ export class Renderer {
 
         // ビュー座標変換行列
         MatrixUtils.lookAt(this._model.camPosition, new Vector(0.0, 0.0, 0.0), new Vector(0, 1, 0), this.vMatrix);
-        MatrixUtils.perspective(60, this._model.canvas.width / this._model.canvas.height, 0.1, 100, this.pMatrix);
+        MatrixUtils.perspective(90, this._model.canvas.width / this._model.canvas.height, 0.1, 100, this.pMatrix);
         MatrixUtils.multiply(this.pMatrix, this.vMatrix, this.vpMatrix);
     };
 

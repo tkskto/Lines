@@ -1,7 +1,8 @@
 import { Model } from '../../Model';
 import { AppConfig } from '../../Config';
 var Sketch = (function () {
-    function Sketch(_model, _id, _type) {
+    function Sketch(_model, _id, _type, _quote) {
+        if (_quote === void 0) { _quote = null; }
         var _this = this;
         this._model = _model;
         this._isPlaying = false;
@@ -9,6 +10,7 @@ var Sketch = (function () {
             if (_this._model.state === Model.SCENE_SKETCH) {
                 if (_this._model.id === _this._id && !_this._isPlaying) {
                     _this.setup();
+                    _this._model.quote = _this._quote;
                 }
                 else if (_this._isPlaying) {
                     _this.dispose();
@@ -30,6 +32,7 @@ var Sketch = (function () {
         _model.addEventListener(Model.ON_STATE_CHANGED, this.onStateChanged);
         this._id = _id;
         this._type = _type;
+        this._quote = _quote;
     }
     Sketch.prototype.replay = function () {
         this.dispose();
@@ -68,6 +71,13 @@ var Sketch = (function () {
     Object.defineProperty(Sketch.prototype, "timer", {
         get: function () {
             return this._timer;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Sketch.prototype, "quote", {
+        get: function () {
+            return this._quote;
         },
         enumerable: true,
         configurable: true

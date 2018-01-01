@@ -1,10 +1,11 @@
 import { Model } from './Model';
 import { Item1 } from './sketch/01/Item';
 import { Item2 } from './sketch/02/Item2';
-import {Item3} from "./sketch/03/Item3";
+import {Item3} from './sketch/03/Item3';
 import {Item4} from './sketch/04/Item4';
 import {AppConfig} from './Config';
 import {Item5} from './sketch/05/Item5';
+import {Item6} from './sketch/06/Item6';
 
 ((win: Window, doc: HTMLDocument) => {
     'use strict';
@@ -12,16 +13,18 @@ import {Item5} from './sketch/05/Item5';
     const _model: Model = Model.instance();
     let _canvas2d: HTMLCanvasElement;
     let _canvasGL: HTMLCanvasElement;
+    let _quote: HTMLAnchorElement;
     _model.ratio = window.devicePixelRatio;
 
     function init () {
-        _canvas2d = doc.getElementById('myCanvas2d') as HTMLCanvasElement;
-        _canvasGL = doc.getElementById('myCanvasGL') as HTMLCanvasElement;
+        _canvas2d = doc.getElementById('canvas--2d') as HTMLCanvasElement;
+        _canvasGL = doc.getElementById('canvas--GL') as HTMLCanvasElement;
+        _quote = doc.getElementById('text-quote') as HTMLAnchorElement;
         onResize();
 
         createjs.Ticker.timingMode = createjs.Ticker.RAF;
 
-        const sketch: NodeList = doc.querySelectorAll('.sketch');
+        const sketch: NodeList = doc.querySelectorAll('.sketch-item');
 
         for (let i = 0, len = sketch.length; i < len; i++) {
             const id = sketch[i].attributes.getNamedItem('id').value;
@@ -48,6 +51,9 @@ import {Item5} from './sketch/05/Item5';
                 case '05':
                     new Item5(_model, _canvas, id, type);
                     break;
+                case '06':
+                    new Item6(_model, _canvas, id, type);
+                    break;
                 default:
                     throw new Error('please set id and data attribute "sketch-type"');
             }
@@ -55,6 +61,7 @@ import {Item5} from './sketch/05/Item5';
 
         window.addEventListener('hashchange', onHashChange);
         _model.addEventListener(Model.ON_RESIZE_EVENT, onResize);
+        _model.addEventListener(Model.ON_CHANGE_QUOTE_TEXT, setQuoteText);
         onHashChange();
     }
 
@@ -68,6 +75,11 @@ import {Item5} from './sketch/05/Item5';
         _canvasGL.height = _model.canvas.height;
         _canvasGL.style.width = _model.canvas.width / _model.ratio + 'px';
         _canvasGL.style.height = _model.canvas.height / _model.ratio + 'px';
+    }
+
+    function setQuoteText() {
+        _quote.textContent = _model.quote;
+        _quote.href = _model.quote;
     }
 
     function onHashChange() {

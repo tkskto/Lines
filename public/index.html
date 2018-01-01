@@ -7,17 +7,19 @@
 </head>
 <body>
 
-<ul>
-    <li class="sketch" id="01" data-sketch-type="canvas2D"><a href="#01">LINE1</a></li>
-    <li class="sketch" id="02" data-sketch-type="webGL"><a href="#02">LINE2</a></li>
-    <li class="sketch" id="03" data-sketch-type="webGL"><a href="#03">LINE3</a></li>
-    <li class="sketch" id="04" data-sketch-type="webGL"><a href="#04">LINE4</a></li>
-    <li class="sketch" id="05" data-sketch-type="webGL"><a href="#05">LINE5</a></li>
+<ul class="list-sketch">
+    <li class="sketch-item" id="01" data-sketch-type="canvas2D"><a href="#01">LINE1</a></li>
+    <li class="sketch-item" id="02" data-sketch-type="webGL"><a href="#02">LINE2</a></li>
+    <li class="sketch-item" id="03" data-sketch-type="webGL"><a href="#03">LINE3</a></li>
+    <li class="sketch-item" id="04" data-sketch-type="webGL"><a href="#04">LINE4</a></li>
+    <li class="sketch-item" id="05" data-sketch-type="webGL"><a href="#05">LINE5</a></li>
+    <li class="sketch-item" id="06" data-sketch-type="webGL"><a href="#06">LINE6</a></li>
 </ul>
 
-<div class="canvasWrap">
-    <canvas id="myCanvas2d"></canvas>
-    <canvas id="myCanvasGL"></canvas>
+<div class="container-canvas">
+    <canvas id="canvas--2d"></canvas>
+    <canvas id="canvas--GL"></canvas>
+    <cite class="text-quote--canvas"><a id="text-quote" href="" target="_blank"></a></cite>
 </div>
 <script src="js/libs/easeljs-0.8.2.min.js"></script>
 <script src="bundle.js"></script>

@@ -20,6 +20,7 @@ export class Model extends EventDispatcher {
     public static ON_RESIZE_EVENT = 'onResizeChanged';
     public static ON_STATE_CHANGED = 'onStateChanged';
     public static ON_CAMERA_STATE_CHANGED = 'onCameraStateChanged';
+    public static ON_CHANGE_QUOTE_TEXT = 'onChangeQuoteText';
 
     private _ratio = 1;
 
@@ -37,7 +38,7 @@ export class Model extends EventDispatcher {
     public setSize = (_width: number, _height: number) => {
         if (_width) {
             this._screen.width = _width;
-            this._canvas.width = _width * this._ratio * 0.8;
+            this._canvas.width = _width * this._ratio;
         }
 
         if (_height) {
@@ -53,7 +54,7 @@ export class Model extends EventDispatcher {
     }
 
     public get canvas(): { width: number, height: number } {
-        return this._screen;
+        return this._canvas;
     }
 
     public static SCENE_TOP = 'sceneTop';
@@ -85,7 +86,7 @@ export class Model extends EventDispatcher {
         }
     }
 
-    private _camPosition: Vector = new Vector(0.0, 0.0, 10.0);
+    private _camPosition: Vector = new Vector(0.0, 0.0, 0.5);
 
     get camPosition(): Vector {
         return this._camPosition;
@@ -94,5 +95,16 @@ export class Model extends EventDispatcher {
     set camPosition(value: Vector) {
         this._camPosition = value;
         this.dispatchEvent(Model.ON_CAMERA_STATE_CHANGED);
+    }
+
+    private _quote: string;
+
+    get quote(): string {
+        return this._quote;
+    }
+
+    set quote(value: string) {
+        this._quote = value;
+        this.dispatchEvent(Model.ON_CHANGE_QUOTE_TEXT);
     }
 }

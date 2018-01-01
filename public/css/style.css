@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-html,body,div,canvas {
+html,body,div,canvas, ul, ol {
     margin: 0;
     padding: 0
 }
@@ -18,15 +18,15 @@ body {
     position: relative;
 }
 
-body.canvas2D #myCanvasGL {
+body.canvas2D #canvas--GL {
     display: none;
 }
 
-body.webGL #myCanvas2d {
+body.webGL #canvas--2d {
     display: none;
 }
 
-.canvasWrap {
+.container-canvas {
     position: absolute;
     top: 0;
     left: 0;
@@ -36,9 +36,18 @@ body.webGL #myCanvas2d {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: -1;
+    z-index: 0;
 }
 
-ul, ol {
-    margin: 0;
+.container-canvas .text-quote--canvas {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.list-sketch {
+    position: relative;
+    z-index: 999;
 }

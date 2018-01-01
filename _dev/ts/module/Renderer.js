@@ -48,7 +48,7 @@ var Renderer = (function () {
             _this.qMatrix = MatrixUtils.initialize(MatrixUtils.create());
             _this.vpMatrix = MatrixUtils.initialize(MatrixUtils.create());
             MatrixUtils.lookAt(_this._model.camPosition, new Vector(0.0, 0.0, 0.0), new Vector(0, 1, 0), _this.vMatrix);
-            MatrixUtils.perspective(60, _this._model.canvas.width / _this._model.canvas.height, 0.1, 100, _this.pMatrix);
+            MatrixUtils.perspective(90, _this._model.canvas.width / _this._model.canvas.height, 0.1, 100, _this.pMatrix);
             MatrixUtils.multiply(_this.pMatrix, _this.vMatrix, _this.vpMatrix);
         };
         this.onResize = function () {
