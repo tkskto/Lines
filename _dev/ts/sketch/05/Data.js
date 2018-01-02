@@ -10,14 +10,14 @@ var Data = (function () {
         var maxHeight = _height * 0.5;
         var offset = _width / _num;
         for (var i = 0; i < _num; i++) {
-            var x = _width * -0.5 + (i * 1.4);
+            var x = _width * -0.9 + (i * 0.12);
             var y = -maxHeight;
             var color = Methods.hsv2RGB(360 / _num * i, 100, 100, 100);
             this._color.push(color[0], color[1], color[2], color[3]);
             this._color.push(color[0], color[1], color[2], color[3]);
             this._color.push(color[0], color[1], color[2], color[3]);
             this._color.push(color[0], color[1], color[2], color[3]);
-            this._vertex.push(x, y, 0.0, x, y, 0.0, x + 0.5, y, 0.0, x + 0.5, y, 0.0);
+            this._vertex.push(x, y, 0.0, x, y, 0.0, x + 0.05, y, 0.0, x + 0.05, y, 0.0);
             this._vertID.push(1 + i * 4, 2 + i * 4, 3 + i * 4, 4 + i * 4);
             this._index.push(i * 4, 1 + i * 4, 2 + i * 4, i * 4, 2 + i * 4, 3 + i * 4);
         }

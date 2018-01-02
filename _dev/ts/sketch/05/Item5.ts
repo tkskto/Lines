@@ -36,7 +36,7 @@ export class Item5 extends Sketch {
         );
         this._renderer = new Renderer(this._ctx, this._model);
 
-        this._data = new Data(this._model.camPosition.z * 2.0, this._model.screen.height / this._model.screen.width * this._model.camPosition.z * 2.0, 15);
+        this._data = new Data(1.0, 1.0, 15);
 
         const line = new Geometry(this._gl, this._data).init(this._data.vertID);
         this._mesh = new Mesh(this._gl, this._default, line, GLConfig.DRAW_TYPE_TRIANGLE);
@@ -61,7 +61,7 @@ export class Item5 extends Sketch {
 
     public update = () => {
         this.animate();
-        this._count += 0.1;
+        this._count += 0.01;
         this._timer = requestAnimationFrame(this.update);
     };
 
