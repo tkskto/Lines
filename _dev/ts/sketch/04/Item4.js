@@ -30,7 +30,7 @@ var Item4 = (function (_super) {
             _this._shader = new Default(_this._gl);
             _this._default = new Program(_this._gl, _this._shader, ['position', 'vertId'], [3, 1], ['mvpMatrix', 'time'], [GLConfig.UNIFORM_TYPE_MATRIX4, GLConfig.UNIFORM_TYPE_FLOAT]);
             _this._renderer = new Renderer(_this._ctx, _this._model);
-            _this._data = new Data(_this._model.camPosition.z * 2.0, _this._model.screen.height / _this._model.screen.width * _this._model.camPosition.z * 2.0, 32);
+            _this._data = new Data(1.0, 1.0, 32);
             var line = new Geometry(_this._gl, _this._data).init(_this._data.vertID);
             _this._mesh = new Mesh(_this._gl, _this._default, line, GLConfig.DRAW_TYPE_LINE);
             _this._renderer.add(_this._mesh);
@@ -49,7 +49,7 @@ var Item4 = (function (_super) {
         };
         _this.update = function () {
             _this.animate();
-            _this._count += 0.1;
+            _this._count += 0.01;
             _this._timer = requestAnimationFrame(_this.update);
         };
         _this.animate = function () {
