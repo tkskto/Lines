@@ -39,10 +39,10 @@ export class Item6 extends Sketch {
         const width = this._model.screen.width;
         const height = this._model.screen.height;
 
-        this._data = new Data(1.0, height / width);
+        this._data = new Data(1.0, height / width, 64);
 
         const line = new Geometry(this._gl, this._data).init();
-        this._mesh = new Mesh(this._gl, this._default, line, GLConfig.DRAW_TYPE_TRIANGLE);
+        this._mesh = new Mesh(this._gl, this._default, line, GLConfig.DRAW_TYPE_TRIANGLE_STRIP);
         this._renderer.add(this._mesh);
 
         this.play();

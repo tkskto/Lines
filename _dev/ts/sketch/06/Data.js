@@ -1,12 +1,19 @@
 var Data = (function () {
-    function Data(_width, _height) {
+    function Data(_width, _height, _col) {
         this._vertex = [];
         this._color = [];
         this._index = [];
         this._normal = [];
         this._uv = [];
-        this._vertex.push(-_width, -_height, 0.0, -_width, _height, 0.0, _width, _height, 0.0, _width, -_height, 0.0);
-        this._index.push(0, 1, 2, 0, 2, 3);
+        var PI = Math.PI;
+        var plus = 360 / _col;
+        var rad = 0;
+        for (var i = 0; i < _col + 1; i++) {
+            var radian = rad * PI / 180;
+            this._vertex.push(Math.cos(radian) * _width, Math.sin(radian) * _height, 0.0);
+            this._vertex.push(Math.cos(radian) * _width * .5, Math.sin(radian) * _height * .5, 0.0);
+            rad += plus;
+        }
     }
     Object.defineProperty(Data.prototype, "vertex", {
         get: function () {

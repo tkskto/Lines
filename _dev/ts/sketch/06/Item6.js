@@ -32,9 +32,9 @@ var Item6 = (function (_super) {
             _this._renderer = new Renderer(_this._ctx, _this._model);
             var width = _this._model.screen.width;
             var height = _this._model.screen.height;
-            _this._data = new Data(1.0, height / width);
+            _this._data = new Data(1.0, height / width, 64);
             var line = new Geometry(_this._gl, _this._data).init();
-            _this._mesh = new Mesh(_this._gl, _this._default, line, GLConfig.DRAW_TYPE_TRIANGLE);
+            _this._mesh = new Mesh(_this._gl, _this._default, line, GLConfig.DRAW_TYPE_TRIANGLE_STRIP);
             _this._renderer.add(_this._mesh);
             _this.play();
         };
