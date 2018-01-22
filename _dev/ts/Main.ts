@@ -6,6 +6,7 @@ import {Item4} from './sketch/04/Item4';
 import {AppConfig} from './Config';
 import {Item5} from './sketch/05/Item5';
 import {Item6} from './sketch/06/Item6';
+import {Item7} from './sketch/07/Item7';
 
 ((win: Window, doc: HTMLDocument) => {
     'use strict';
@@ -53,6 +54,9 @@ import {Item6} from './sketch/06/Item6';
                     break;
                 case '06':
                     new Item6(_model, _canvas, id, type);
+                    break;
+                case '07':
+                    new Item7(_model, _canvas, id, type);
                     break;
                 default:
                     throw new Error('please set id and data attribute "sketch-type"');
