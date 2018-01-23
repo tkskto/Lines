@@ -96,7 +96,8 @@ var GLUtils = (function () {
             gl.vertexAttribPointer(attl[i], atts[i], gl.FLOAT, false, 0, 0);
         }
     };
-    GLUtils.createFrameBuffer = function (gl, _width, _height) {
+    GLUtils.createFrameBuffer = function (gl, _width, _height, _format) {
+        var textureFormat = _format || gl.UNSIGNED_BYTE;
         var frameBuffer = gl.createFramebuffer();
         gl.bindFramebuffer(gl.FRAMEBUFFER, frameBuffer);
         var depthRenderBuffer = gl.createRenderbuffer();
@@ -152,6 +153,16 @@ var GLUtils = (function () {
                     break;
             }
         }
+    };
+    GLUtils.createTexture = function (_gl, width, height, format) {
+        var texture = _gl.createTexture();
+        _gl.bindTexture(_gl.TEXTURE_2D, texture);
+        _gl.texImage2D(_gl.TEXTURE_2D, 0, _gl.RGBA, width, height, 0, _gl.RGBA, format, null);
+        _gl.texParameteri(_gl.TEXTURE_2D, _gl.TEXTURE_MAG_FILTER, _gl.NEAREST);
+        _gl.texParameteri(_gl.TEXTURE_2D, _gl.TEXTURE_MIN_FILTER, _gl.NEAREST);
+        _gl.texParameteri(_gl.TEXTURE_2D, _gl.TEXTURE_WRAP_S, _gl.CLAMP_TO_EDGE);
+        _gl.texParameteri(_gl.TEXTURE_2D, _gl.TEXTURE_WRAP_T, _gl.CLAMP_TO_EDGE);
+        return texture;
     };
     return GLUtils;
 }());

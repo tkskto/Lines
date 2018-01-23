@@ -162,6 +162,21 @@ export class GLUtils {
         }
     }
 
+    public static createTexture = (_gl: WebGLRenderingContext, width: number, height: number, format: number): WebGLTexture => {
+        const texture: WebGLTexture = _gl.createTexture();
+
+        _gl.bindTexture(_gl.TEXTURE_2D, texture);
+        _gl.texImage2D(_gl.TEXTURE_2D, 0, _gl.RGBA, width, height, 0, _gl.RGBA, format, null);
+
+        _gl.texParameteri(_gl.TEXTURE_2D, _gl.TEXTURE_MAG_FILTER, _gl.NEAREST);
+        _gl.texParameteri(_gl.TEXTURE_2D, _gl.TEXTURE_MIN_FILTER, _gl.NEAREST);
+        _gl.texParameteri(_gl.TEXTURE_2D, _gl.TEXTURE_WRAP_S, _gl.CLAMP_TO_EDGE);
+        _gl.texParameteri(_gl.TEXTURE_2D, _gl.TEXTURE_WRAP_T, _gl.CLAMP_TO_EDGE);
+
+        return texture;
+    };
+
+
     /**
      * フレームバッファを生成
      * @param {WebGLRenderingContext} gl
@@ -169,7 +184,10 @@ export class GLUtils {
      * @param {number} _height
      * @returns {frameBuffer, depthBuffer, texture}
      */
-    public static createFrameBuffer(gl: WebGLRenderingContext, _width: number, _height: number): {frameBuffer: WebGLFramebuffer, depthBuffer: WebGLRenderbuffer, texture: WebGLTexture} {
+    public static createFrameBuffer(gl: WebGLRenderingContext, _width: number, _height: number, _format: number): {frameBuffer: WebGLFramebuffer, depthBuffer: WebGLRenderbuffer, texture: WebGLTexture} {
+
+        const textureFormat: number = _format || gl.UNSIGNED_BYTE;
+
 
         // フレームバッファを生成してバインド
         const frameBuffer = gl.createFramebuffer();
