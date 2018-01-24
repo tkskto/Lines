@@ -5,6 +5,9 @@ export class Default extends Shader {
         super(_gl,
             `#version 300 es
             layout (location = 0) in vec3 position;
+            layout (location = 1) in vec3 normal;
+            layout (location = 2) in vec3 color;
+            layout (location = 3) in vec3 texCoord;
             uniform mat4 mvpMatrix;
             void main(void){
                 gl_Position = mvpMatrix * vec4(position, 1.0);
@@ -12,7 +15,7 @@ export class Default extends Shader {
             `#version 300 es
             precision highp float;
             uniform vec2 resolution;
-            uniform float time;
+            uniform sampler2D texture;
             out vec4 outColor;
             vec3 pal( in float t, in vec3 a, in vec3 b, in vec3 c, in vec3 d )
             {

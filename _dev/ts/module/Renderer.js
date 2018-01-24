@@ -19,6 +19,8 @@ var Renderer = (function () {
         };
         this.dispose = function () {
             _this._target.length = 0;
+            _this._model.removeEventListener(Model.ON_RESIZE_EVENT, _this.onResize);
+            _this._model.removeEventListener(Model.ON_CAMERA_STATE_CHANGED, _this.initializeMatrix);
         };
         this.update = function () {
             var values = [];

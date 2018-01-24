@@ -30,6 +30,8 @@ export class Mesh {
     };
 
     public ready = (_values: any[] = undefined) => {
+        this._gl.useProgram(this._prg.program);
+
         GLUtils.setAttr(this._gl, this._geometry.vbo, this._prg.attl, this._prg.atts);
 
         if (this._geometry.ibo) {

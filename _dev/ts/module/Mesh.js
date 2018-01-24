@@ -15,6 +15,7 @@ var Mesh = (function () {
         };
         this.ready = function (_values) {
             if (_values === void 0) { _values = undefined; }
+            _this._gl.useProgram(_this._prg.program);
             GLUtils.setAttr(_this._gl, _this._geometry.vbo, _this._prg.attl, _this._prg.atts);
             if (_this._geometry.ibo) {
                 _this._gl.bindBuffer(_this._gl.ELEMENT_ARRAY_BUFFER, _this._geometry.ibo);
